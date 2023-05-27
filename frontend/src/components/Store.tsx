@@ -1,6 +1,15 @@
 import React from 'react';
 
-function Store({ store }) {
+interface StoreProps {
+  store: {
+    name: string;
+    availability: string;
+    numCopies: number;
+    price: number;
+  };
+}
+
+function Store({ store }: StoreProps) {
   return (
     <div className="store">
       <h3>{store.name}</h3>

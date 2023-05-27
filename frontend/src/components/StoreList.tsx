@@ -1,6 +1,15 @@
 import React from 'react';
 
-function StoreList({ stores }) {
+interface Store {
+  id: number;
+  name: string;
+}
+
+interface StoreListProps {
+  stores: Store[];
+}
+
+function StoreList({ stores }: StoreListProps) {
   return (
     <div className="store-list">
       <h3>Available Stores:</h3>

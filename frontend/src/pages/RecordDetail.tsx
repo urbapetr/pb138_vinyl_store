@@ -4,32 +4,48 @@ import StoreList from '../components/StoreList';
 import '../styles.css';
 import no_cover from '../No_cover.jpg';
 
-function RecordDetail({ searchResults }) {
-  const { id } = useParams();
+import { RecordItem } from '../types/types';
+
+interface Store {
+  id: number;
+  name: string;
+  availability: string;
+  numCopies: number;
+  price: number;
+}
+
+interface RecordDetailProps {
+  searchResults: RecordItem[];
+}
+
+function RecordDetail({ searchResults }: RecordDetailProps) {
+  const { id } = useParams<{ id: string }>();
   const [filter, setFilter] = useState(false);
-  const [filteredStores, setFilteredStores] = useState([]);
+  const [filteredStores, setFilteredStores] = useState<Store[]>([]);
   const navigate = useNavigate();
 
-  const handleFilterChange = (e) => {
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
     setFilter(isChecked);
 
     if (isChecked) {
-      const record = searchResults.find((record) => record.id === parseInt(id));
-      const filteredStores = record?.stores
-        ? record.stores.filter((store) => store.availability)
+      const filteredRecord = searchResults.find(
+        (record) => record.id === parseInt(id || '', 10)
+      );
+      const updatedStores = filteredRecord?.stores
+        ? filteredRecord.stores.filter(
+            (store) => store.availability === 'available'
+          )
         : [];
-      setFilteredStores(filteredStores);
+      setFilteredStores(updatedStores);
     } else {
       setFilteredStores([]);
     }
   };
 
-  const handleReturn = () => {
-    navigate(-1);
-  };
-
-  const record = searchResults.find((record) => record.id === parseInt(id));
+  const record = searchResults.find(
+    (result) => result.id === parseInt(id || '', 10)
+  );
 
   return (
     <div className="record-detail">
@@ -37,7 +53,11 @@ function RecordDetail({ searchResults }) {
         <>
           <div className="record-info-left">
             {record.cover ? (
-              <img src={record.cover} alt={record.title} className="album-cover" />
+              <img
+                src={record.cover}
+                alt={record.title}
+                className="album-cover"
+              />
             ) : (
               <img src={no_cover} alt="no-cover" className="album-cover" />
             )}
@@ -47,10 +67,16 @@ function RecordDetail({ searchResults }) {
             <p>Artist: {record.artist}</p>
             <p>Genre: {record.genre}</p>
             <p>Price: {record.price}</p>
-            <p>Availability: {record.availability ? 'In Stock' : 'Out of Stock'}</p>
+            <p>
+              Availability: {record.availability ? 'In Stock' : 'Out of Stock'}
+            </p>
             <p>Availability Filter:</p>
-            <label>
-              <input type="checkbox" checked={filter} onChange={handleFilterChange} />
+            <label htmlFor="availability">
+              <input
+                type="checkbox"
+                checked={filter}
+                onChange={handleFilterChange}
+              />
               Available
             </label>
             {filteredStores.length > 0 ? (
@@ -58,7 +84,6 @@ function RecordDetail({ searchResults }) {
             ) : (
               <p>No stores found.</p>
             )}
-            <button onClick={handleReturn}>Return</button>
           </div>
         </>
       ) : (
