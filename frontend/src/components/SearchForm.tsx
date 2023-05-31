@@ -51,9 +51,9 @@ function SearchForm({ onSearch }: SearchFormProps) {
   return (
     <div className="search-form">
       <h2>Search Vinyl Records</h2>
-      <form onSubmit={handleSubmit}>
+      <form className="search-container" onSubmit={handleSubmit}>
         <label htmlFor="title">
-          Title:
+          <span className="label-text">Title:</span>
           <input
             type="text"
             name="title"
@@ -62,7 +62,7 @@ function SearchForm({ onSearch }: SearchFormProps) {
           />
         </label>
         <label htmlFor="artist">
-          Artist:
+          <span className="label-text">Artist:</span>
           <input
             type="text"
             name="artist"
@@ -71,7 +71,7 @@ function SearchForm({ onSearch }: SearchFormProps) {
           />
         </label>
         <label htmlFor="genre">
-          Genre:
+          <span className="label-text">Genre:</span>
           <input
             type="text"
             name="genre"
@@ -80,7 +80,7 @@ function SearchForm({ onSearch }: SearchFormProps) {
           />
         </label>
         <label htmlFor="minPrice">
-          Min Price:
+          <span className="label-text">Min Price:</span>
           <input
             type="number"
             name="minPrice"
@@ -89,7 +89,7 @@ function SearchForm({ onSearch }: SearchFormProps) {
           />
         </label>
         <label htmlFor="maxPrice">
-          Max Price:
+          <span className="label-text">Max Price:</span>
           <input
             type="number"
             name="maxPrice"
@@ -97,8 +97,8 @@ function SearchForm({ onSearch }: SearchFormProps) {
             onChange={handleChange}
           />
         </label>
-        <label htmlFor="availability">
-          Availability:
+        <label className="availability" htmlFor="availability">
+          <span className="label-text">Availability:</span>
           <input
             type="checkbox"
             name="availability"

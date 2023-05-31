@@ -24,26 +24,26 @@ function Record({ record, onRecordSelect }: RecordProps) {
   };
 
   return (
-    <div
-      className="record"
-      onClick={handleRecordClick}
-      onKeyDown={handleKeyDown}
-      role="button"
-      tabIndex={0}
-    >
-      {record.cover ? (
-        <img src={record.cover} alt={record.title} className="album-cover" />
-      ) : (
-        <img src={no_cover} alt="no-cover" className="album-cover" />
-      )}
-      <Link to={`/record/${record.id}`}>
+    <Link to={`/record/${record.id}`} className="link-styles">
+      <div
+        className="record"
+        onClick={handleRecordClick}
+        onKeyDown={handleKeyDown}
+        role="button"
+        tabIndex={0}
+      >
+        {record.cover ? (
+          <img src={record.cover} alt={record.title} className="album-cover" />
+        ) : (
+          <img src={no_cover} alt="no-cover" className="album-cover" />
+        )}
         <h3>{record.title}</h3>
-      </Link>
-      <p>Artist: {record.artist}</p>
-      <p>Genre: {record.genre}</p>
-      <p>Price: {record.price}</p>
-      <p>Availability: {record.availability ? 'In Stock' : 'Out of Stock'}</p>
-    </div>
+        <p>Artist: {record.artist}</p>
+        <p>Genre: {record.genre}</p>
+        <p>Price: {record.price}</p>
+        <p>Availability: {record.availability ? 'In Stock' : 'Out of Stock'}</p>
+      </div>
+    </Link>
   );
 }
 

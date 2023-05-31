@@ -51,40 +51,43 @@ function RecordDetail({ searchResults }: RecordDetailProps) {
     <div className="record-detail">
       {record ? (
         <>
-          <div className="record-info-left">
-            {record.cover ? (
-              <img
-                src={record.cover}
-                alt={record.title}
-                className="album-cover"
-              />
-            ) : (
-              <img src={no_cover} alt="no-cover" className="album-cover" />
-            )}
+          <div className="record-info-container">
+            <div className="record-info-left">
+              {record.cover ? (
+                <img
+                  src={record.cover}
+                  alt={record.title}
+                  className="album-cover"
+                />
+              ) : (
+                <img src={no_cover} alt="no-cover" className="album-cover" />
+              )}
+            </div>
+            <div className="record-info-right">
+              <h2>{record.title}</h2>
+              <p>Artist: {record.artist}</p>
+              <p>Genre: {record.genre}</p>
+              <p>Price: {record.price}</p>
+              <p>
+                Availability:
+                {record.availability ? 'In Stock' : 'Out of Stock'}
+              </p>
+            </div>
           </div>
-          <div className="record-info-right">
-            <h2>{record.title}</h2>
-            <p>Artist: {record.artist}</p>
-            <p>Genre: {record.genre}</p>
-            <p>Price: {record.price}</p>
-            <p>
-              Availability: {record.availability ? 'In Stock' : 'Out of Stock'}
-            </p>
-            <p>Availability Filter:</p>
-            <label htmlFor="availability">
-              <input
-                type="checkbox"
-                checked={filter}
-                onChange={handleFilterChange}
-              />
-              Available
-            </label>
-            {filteredStores.length > 0 ? (
-              <StoreList stores={filteredStores} />
-            ) : (
-              <p>No stores found.</p>
-            )}
-          </div>
+          <p>Availability Filter:</p>
+          <label htmlFor="availability">
+            <input
+              type="checkbox"
+              checked={filter}
+              onChange={handleFilterChange}
+            />
+            Available
+          </label>
+          {filteredStores.length > 0 ? (
+            <StoreList stores={filteredStores} />
+          ) : (
+            <p>No stores found.</p>
+          )}
         </>
       ) : (
         <p>Record not found.</p>

@@ -14,14 +14,32 @@ header {
 }
 
 /* SearchForm styles */
-.search-form {
-  margin-bottom: 20px;
+.search-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  padding-right: 2rem;
+  border: 1px solid #000000;
+  margin-bottom: 2rem;
 }
 
-.search-form input[type='text'],
-.search-form select {
-  padding: 8px;
-  font-size: 16px;
+.search-container label {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  justify-content: left;
+}
+
+.availability input {
+  justify-self: start;
+}
+
+.label-text {
+  justify-self: end;
+  padding: 2rem 1rem 2rem 2rem;
+}
+
+.search-form input {
+  width: 100%;
 }
 
 .search-form button {
@@ -59,9 +77,32 @@ header {
   height: auto;
 }
 
+.link-styles {
+  color: black;
+  text-decoration: none;
+}
+
+.link-styles:hover {
+  text-decoration: none;
+}
+
 /* RecordDetail styles */
 .record-detail {
   margin-top: 20px;
+}
+
+.record-info-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 1rem;
+}
+
+.record-info-left {
+  grid-column: 1;
+}
+
+.record-info-right {
+  grid-column: 2;
 }
 
 .record-detail h2 {

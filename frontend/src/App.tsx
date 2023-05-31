@@ -54,7 +54,7 @@ function App(): JSX.Element {
             price: 10.99,
             availability: true,
             stores: [],
-            cover: 'https://example.com/album1-cover.jpg',
+            cover: '',
           },
           {
             id: 2,
@@ -84,7 +84,7 @@ function App(): JSX.Element {
             price: 14.99,
             availability: true,
             stores: [],
-            cover: 'https://example.com/album3-cover.jpg',
+            cover: '',
           },
           {
             id: 4,
@@ -94,7 +94,7 @@ function App(): JSX.Element {
             price: 9.99,
             availability: true,
             stores: [],
-            cover: 'https://example.com/album4-cover.jpg',
+            cover: '',
           },
           {
             id: 5,
@@ -104,7 +104,7 @@ function App(): JSX.Element {
             price: 11.99,
             availability: true,
             stores: [],
-            cover: 'https://example.com/album5-cover.jpg',
+            cover: '',
           },
           // Add more records from Store 2...
         ]);
