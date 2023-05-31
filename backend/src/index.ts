@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import { config as configEnvVariables } from 'dotenv';
 import { env } from 'process';
+import { PrismaClient } from '@prisma/client';
 import type { ApiResponse } from './controllers/types';
 
 configEnvVariables();
@@ -14,7 +15,57 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-// app.use('/', router);
+const prisma = new PrismaClient();
+
+app.use('/', async (_req, res) => {
+  const random = Math.random() * 100;
+
+  const newRecord = await prisma.record.create({
+    data: {
+      title: `Record ${random}`,
+      artist: `Artist ${random}`,
+      genre: `Genre ${random}`,
+    },
+  });
+
+  await prisma.store.create({
+    data: {
+      name: `Store ${random}`,
+      records: {
+        create: {
+          recordId: newRecord.id,
+          copies: Math.floor(Math.random() * 10) + 1,
+          available: Math.random() < 0.5,
+          price: Math.random() * 100,
+        },
+      },
+    },
+  });
+
+  await prisma.store.create({
+    data: {
+      name: `Store ${random + 1}`,
+      records: {
+        create: {
+          recordId: newRecord.id,
+          copies: Math.floor(Math.random() * 10) + 1,
+          available: Math.random() < 0.5,
+          price: Math.random() * 100,
+        },
+      },
+    },
+  });
+
+  const allUsers = await prisma.record.findMany();
+
+  const response: ApiResponse<{}> = {
+    status: 'success',
+    data: {},
+    message: allUsers.toString(),
+  };
+
+  return res.status(200).send(response);
+});
 
 app.use((_req, res) => {
   const response: ApiResponse<{}> = {
