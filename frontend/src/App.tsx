@@ -42,6 +42,7 @@ function App(): JSX.Element {
     setSelectedRecord(record);
   };
 
+  // These are just test data
   const fetchStore1Data = (): Promise<RecordItem[]> => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -72,6 +73,7 @@ function App(): JSX.Element {
     });
   };
 
+  // These are just test data
   const fetchStore2Data = (): Promise<RecordItem[]> => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -127,23 +129,27 @@ function App(): JSX.Element {
   return (
     <Router>
       <div className="app">
-        <h1>Vinyl Store</h1>
-        <SearchForm onSearch={handleSearch} />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <RecordList
-                searchResults={searchResults}
-                onRecordSelect={handleRecordSelect}
-              />
-            }
-          />
-          <Route
-            path="/record/:id"
-            element={<RecordDetail searchResults={searchResults} />}
-          />
-        </Routes>
+        <div className="appBanner">
+          <h1>Vinyl Store</h1>
+        </div>
+        <div className="appBody">
+          <SearchForm onSearch={handleSearch} />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <RecordList
+                  searchResults={searchResults}
+                  onRecordSelect={handleRecordSelect}
+                />
+              }
+            />
+            <Route
+              path="/record/:id"
+              element={<RecordDetail searchResults={searchResults} />}
+            />
+          </Routes>
+        </div>
       </div>
     </Router>
   );

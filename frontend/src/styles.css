@@ -1,8 +1,14 @@
-/* styles.css */
+@font-face {
+  font-family: "Dancing Script";
+  src: url("fonts/DancingScript-VariableFont_wght.ttf");
+}
 
 /* Global styles */
 body {
   font-family: Arial, sans-serif;
+}
+
+.appBody {
   margin: 5%;
 }
 
@@ -11,6 +17,29 @@ header {
   background-color: #333;
   color: #fff;
   padding: 10px;
+}
+
+.appBanner {
+  position: fixed;
+  display: grid;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3rem;
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+}
+
+.appBanner h1 {
+  position: relative;
+  margin: 0;
+  font-family: "Dancing Script";
+  justify-self: center;
+}
+
+.appBody {
+  margin-top: 7rem; /* Add margin to the top of .appBody to avoid overlapping with .appBanner */
 }
 
 /* SearchForm styles */
@@ -87,6 +116,19 @@ header {
 }
 
 /* RecordDetail styles */
+.backButton {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  height: 3rem;
+}
+
+.backButton img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .record-detail {
   margin-top: 20px;
 }

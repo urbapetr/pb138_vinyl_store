@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import StoreList from '../components/StoreList';
 import '../styles.css';
 import no_cover from '../No_cover.jpg';
+import arrow from '../arrow.png';
 
 import { RecordItem } from '../types/types';
 
@@ -22,7 +23,6 @@ function RecordDetail({ searchResults }: RecordDetailProps) {
   const { id } = useParams<{ id: string }>();
   const [filter, setFilter] = useState(false);
   const [filteredStores, setFilteredStores] = useState<Store[]>([]);
-  const navigate = useNavigate();
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -49,6 +49,9 @@ function RecordDetail({ searchResults }: RecordDetailProps) {
 
   return (
     <div className="record-detail">
+      <Link to="/" className="backButton">
+        <img src={arrow} alt="back arrow" />
+      </Link>
       {record ? (
         <>
           <div className="record-info-container">
@@ -92,7 +95,6 @@ function RecordDetail({ searchResults }: RecordDetailProps) {
       ) : (
         <p>Record not found.</p>
       )}
-      <Link to="/">Back to Search</Link>
     </div>
   );
 }
