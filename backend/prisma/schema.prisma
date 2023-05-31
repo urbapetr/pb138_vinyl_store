@@ -24,7 +24,6 @@ model Store {
 model StoreInRecord {
   storeId   Int
   recordId  Int
-  copies    Int
   available Boolean
   price     Float
   createdAt DateTime @default(now())
