@@ -40,7 +40,10 @@ function SearchForm({ onSearch }: SearchFormProps) {
     e.preventDefault();
 
     // Validate minimum and maximum prices
-    if (searchCriteria.minPrice < '0' || searchCriteria.maxPrice < '0') {
+    if (
+      (searchCriteria.minPrice !== '' && searchCriteria.minPrice < '0') ||
+      (searchCriteria.maxPrice !== '' && searchCriteria.maxPrice < '0')
+    ) {
       alert('Prices cannot be less than 0');
       return;
     }
