@@ -31,13 +31,9 @@
     "vitest": "^0.30.1"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@prisma/client": "^4.15.0",
-=======
     "@prisma/client": "^4.12.0",
     "axios": "^1.4.0",
     "cheerio": "^1.0.0-rc.12",
->>>>>>> 22137cb (feat (wip): 1st scraper)
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
