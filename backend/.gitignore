@@ -43,3 +43,5 @@ yarn.lock
 
 # ignore test dbs if left behind
 test*.db
+
+.cache
