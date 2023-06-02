@@ -34,6 +34,8 @@ backend-build:
   stage: build
   extends: .backend
   needs: []
+  tags:
+    - shared-fi
   script:
     - echo "Compiling the backend code..."
 
@@ -41,6 +43,8 @@ frontend-build:
   stage: build
   extends: .frontend
   needs: []
+  tags:
+    - shared-fi
   script:
     - echo "Compiling the frontend code..."
 
@@ -48,6 +52,8 @@ backend-test:
   stage: test
   extends: .backend
   needs: ["backend-build"]
+  tags:
+    - shared-fi
   script:
     - echo "Testing the backend code..."
 
@@ -55,6 +61,8 @@ frontend-test:
   stage: test
   extends: .frontend
   needs: ["frontend-build"]
+  tags:
+    - shared-fi
   script:
     - echo "Testing the frontend code..."
 
