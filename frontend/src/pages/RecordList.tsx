@@ -1,6 +1,5 @@
 import React from 'react';
 import Record from '../components/Record';
-import '../styles.css';
 
 import { RecordItem } from '../types/types';
 

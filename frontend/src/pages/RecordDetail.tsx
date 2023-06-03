@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import StoreList from '../components/StoreList';
-import '../styles.css';
 import no_cover from '../No_cover.jpg';
 import arrow from '../arrow.png';
 

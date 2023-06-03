@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SearchForm from './components/SearchForm';
 import RecordList from './pages/RecordList';
 import RecordDetail from './pages/RecordDetail';
-import './styles.css';
 
 import { RecordItem } from './types/types';
 
