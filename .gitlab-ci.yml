@@ -39,6 +39,17 @@ backend-build:
   script:
     - echo "Compiling the backend code..."
 
+backend-eslint:
+  stage: build
+  extends: .backend
+  image: node:latest
+  tags: 
+    - shared-fi
+  script:
+    - cd backend
+    - npm install
+    - npx eslint .
+
 frontend-build:
   stage: build
   extends: .frontend
