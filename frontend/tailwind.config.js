@@ -1,12 +1,25 @@
-/* eslint-disable global-require */
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    './src/**/*/.{js,jsx,ts,tsx}',
-    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        bebas: ['Bebas Neue'],
+        monomaniac: ['Monomaniac One'],
+        aoboshi: ['Aoboshi One'],
+      },
+    },
   },
-  plugins: [require('flowbite/plugin')],
+  plugins: [require('daisyui')],
+  daisyui: {
+    themes: [ 
+      'lofi',
+      'luxury',
+      {
+        custom: {
+          "neutral": "#ffffff",
+        }
+      },
+    ],
+  },
 };

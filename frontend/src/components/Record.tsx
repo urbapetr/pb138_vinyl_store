@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import no_cover from '../No_cover.jpg';
 
-import { RecordItem } from '../types/types';
+import { RecordItem } from '../models/recordTypes';
 
 interface RecordProps {
   record: RecordItem;
@@ -35,7 +34,7 @@ function Record({ record, onRecordSelect }: RecordProps) {
         {record.cover ? (
           <img src={record.cover} alt={record.title} className="album-cover" />
         ) : (
-          <img src={no_cover} alt="no-cover" className="album-cover" />
+          <img alt="no-cover" className="album-cover" />
         )}
         <h3>{record.title}</h3>
         <p>Artist: {record.artist}</p>

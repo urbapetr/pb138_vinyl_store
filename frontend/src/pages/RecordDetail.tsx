@@ -4,7 +4,7 @@ import StoreList from '../components/StoreList';
 import no_cover from '../No_cover.jpg';
 import arrow from '../arrow.png';
 
-import { RecordItem } from '../types/types';
+import { RecordItem } from '../models/recordTypes';
 
 interface Store {
   id: number;

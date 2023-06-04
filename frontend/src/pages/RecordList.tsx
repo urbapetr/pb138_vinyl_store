@@ -1,7 +1,7 @@
 import React from 'react';
 import Record from '../components/Record';
 
-import { RecordItem } from '../types/types';
+import { RecordItem } from '../models/recordTypes';
 
 interface RecordListProps {
   searchResults: RecordItem[];
