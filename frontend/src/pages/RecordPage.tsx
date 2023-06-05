@@ -24,15 +24,17 @@ export function RecordPage() {
   if (!record) return <LoadingIcon />;
 
   return (
-    <div>
-      <div className="mb-8" />
-      <DetailCard
-        artist={record.data.artist}
-        cover={record.data.cover}
-        genres={record.data.genres}
-        title={record.data.title}
-      />
-      <div className="bg-neutral-800 mt-8 pb-1 font-bebas">
+    <div className="lg:flex lg:flex-row lg:mb-8 xl:mx-12 2xl:mx-48">
+      <div className="mb-8 lg:w-1/2">
+        <DetailCard
+          artist={record.data.artist}
+          cover={record.data.cover}
+          genres={record.data.genres}
+          title={record.data.title}
+        />
+      </div>
+      <div className="divider divider-horizontal" />
+      <div className="bg-neutral-800 mt-8 pb-1 font-bebas lg:w-1/2 lg:mr-8">
         <StoresHeader
           availableCallback={(available) => {
             setAvailableFilter(available);

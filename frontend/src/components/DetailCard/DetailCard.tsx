@@ -10,7 +10,7 @@ interface DetailCardProps {
 
 export function DetailCard({ title, artist, genres, cover }: DetailCardProps) {
   return (
-    <div className="mx-12 mt-12">
+    <div className="mx-12 mt-12 lg:mr-0">
       <div>
         <CardImage src={cover} alt={`${title}-${artist}`} />
       </div>

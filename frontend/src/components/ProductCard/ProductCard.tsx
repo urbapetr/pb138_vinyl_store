@@ -14,7 +14,7 @@ export function ProductCard({
   cover,
 }: RecordCheapest) {
   return (
-    <div className="mx-12 mt-12">
+    <div className="mt-12">
       <Link to={`/records/${id}`}>
         <div>
           <CardImage src={cover} alt={`${title}-${artist}`} />

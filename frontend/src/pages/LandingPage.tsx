@@ -12,16 +12,17 @@ export function LandingPage() {
   if (!genres) return <LoadingIcon />;
 
   return (
-    <div>
-      <div className="mb-8">
+    <div className="mb-8">
+      <div className="mx-12 sm:grid sm:grid-cols-2 sm:gap-x-12 lg:grid-cols-4 xl:mx-48">
         {genres.data.map((genre) => {
           return (
-            <GenreCard
-              key={genre.id}
-              imageUrl={genre.imageUrl}
-              label={genre.name}
-              link={genre.id}
-            />
+            <div className="w-full sm:inline-block" key={genre.id}>
+              <GenreCard
+                imageUrl={genre.imageUrl}
+                label={genre.name}
+                link={genre.id}
+              />
+            </div>
           );
         })}
       </div>
