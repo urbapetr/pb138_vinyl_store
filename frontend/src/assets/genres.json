@@ -1,0 +1,46 @@
+{
+	"status": "success",
+	"data": [
+		{
+			"id": "4580688e-12b6-4760-998e-367cc84ad6a8",
+			"createdAt": "2023-02-09T07:34:57.557Z",
+			"updatedAt": "2023-02-09T07:34:57.557Z",
+			"name": "All",
+            "imageUrl": "https://cdns-images.dzcdn.net/images/cover/402454974e55921bd2cb6e352331e505/500x500-000000-80-0-0.jpg",
+			"deletedAt": null
+		},
+		{
+			"id": "780e74de-db9c-4a5d-8d55-5eaa40b76774",
+			"createdAt": "2023-02-09T07:36:05.117Z",
+			"updatedAt": "2023-02-09T07:36:05.117Z",
+			"name": "Alternative",
+            "imageUrl": "https://cdns-images.dzcdn.net/images/cover/500d84dd59475c2428f149e85afaf292/500x500-000000-80-0-0.jpg",
+			"deletedAt": null
+		},
+		{
+			"id": "83f250ed-6107-4839-be48-dcfe8d030944",
+			"createdAt": "2023-02-09T07:36:29.636Z",
+			"updatedAt": "2023-02-09T07:36:29.636Z",
+			"name": "Pop",
+            "imageUrl": "https://cdns-images.dzcdn.net/images/cover/c4e825ca0458ec35d8afda0e451766c1/500x500-000000-80-0-0.jpg",
+			"deletedAt": null
+		},
+		{
+			"id": "79b1387a-4347-471e-8a53-a41e6294b8a7",
+			"createdAt": "2023-02-09T07:36:55.336Z",
+			"updatedAt": "2023-02-09T07:36:55.337Z",
+			"name": "Rock",
+            "imageUrl": "https://e-cdn-images.dzcdn.net/images/cover/3a69565903e367f0670ad1d42acb22db/264x264-000000-80-0-0.jpg",
+			"deletedAt": null
+		},
+		{
+			"id": "a959658b-b9e0-41c3-9745-3ba46c55d88e",
+			"createdAt": "2023-02-09T07:37:14.001Z",
+			"updatedAt": "2023-02-09T07:37:14.001Z",
+			"name": "Rap",
+            "imageUrl": "https://cdns-images.dzcdn.net/images/cover/5fe94aa19d89e77014c3a9585c1a055b/500x500-000000-80-0-0.jpg",
+			"deletedAt": null
+		}
+	],
+	"message": "Listed 7 genres"
+}
