@@ -192,3 +192,9 @@ INSERT INTO public."Genre" (name) VALUES
                               ('Dubstep'),
                               ('Garage rock'),
                               ('Psybient');
+
+INSERT INTO public."Store"
+VALUES (1, 'Vinyl Pursuit', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'https://cdn.shopify.com/s/files/1/0535/5493/8031/files/Vinyl_Pursuit-Logo-Shopify_2048x_c69c5b46-53bd-48fa-88a4-c80cd7acc141_2048x.png?v=1673748459', 'vinylpursuit.com');
+
+INSERT INTO public."Store"
+VALUES (2, 'test', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'test', 'test');

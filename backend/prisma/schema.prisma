@@ -13,12 +13,16 @@ model Record {
   stores    StoreInRecord[]
   createdAt DateTime        @default(now())
   updatedAt DateTime        @default(now()) @updatedAt
+  genres    GenreInRecord[]
+
+  @@unique([title, artist])
 }
 
 model Store {
   id        Int             @id @default(autoincrement())
   name      String
   imageUrl  String?
+  url       String?
   records   StoreInRecord[]
   createdAt DateTime        @default(now())
   updatedAt DateTime        @default(now()) @updatedAt
@@ -39,12 +43,22 @@ model StoreInRecord {
 }
 
 model Genre {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  name      String
+  id        Int             @id @default(autoincrement())
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @default(now()) @updatedAt
+  name      String          @unique
   deletedAt DateTime?
-  records   Record[]
+  records   GenreInRecord[]
+  Record    Record[]
+}
+
+model GenreInRecord {
+  genreId  Int
+  recordId Int
+  genre    Genre  @relation(fields: [genreId], references: [id])
+  record   Record @relation(fields: [recordId], references: [id])
+
+  @@id([genreId, recordId])
 }
 
 generator client {
