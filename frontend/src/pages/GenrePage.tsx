@@ -22,20 +22,19 @@ export function GenrePage() {
         </div>
       </div>
       <div className="mb-8">
-        <div className="mx-12 sm:grid sm:grid-cols-2 sm:gap-x-12 lg:grid-cols-4 xl:mx-48">
+        <div className="mx-12 mt-12 grid gap-y-12 sm:grid-cols-2 sm:gap-x-12 lg:grid-cols-4 xl:mx-48">
           {records.data.map((record) => {
             return (
-              <div key={record.id}>
-                <ProductCard
-                  artist={record.artist}
-                  cover={record.cover}
-                  genres={record.genres}
-                  id={record.id}
-                  price={record.price}
-                  priceUrl={record.priceUrl}
-                  title={record.title}
-                />
-              </div>
+              <ProductCard
+                key={record.id}
+                artist={record.artist}
+                cover={record.cover}
+                genres={record.genres}
+                id={record.id}
+                price={record.price}
+                priceUrl={record.priceUrl}
+                title={record.title}
+              />
             );
           })}
         </div>
