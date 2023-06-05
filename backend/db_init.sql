@@ -1,4 +1,5 @@
-INSERT INTO public."Genre" (genre) VALUES
+INSERT INTO public."Genre" (name) VALUES
+                              ('All'),
                               ('Blues'),
                               ('Classic rock'),
                               ('Country'),

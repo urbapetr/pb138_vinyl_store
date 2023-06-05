@@ -1,9 +1,10 @@
-import express from 'express';
+import express, {Response} from 'express';
 import cors from 'cors';
 import { config as configEnvVariables } from 'dotenv';
 import { env } from 'process';
-import { PrismaClient } from '@prisma/client';
 import type { ApiResponse } from './controllers/types';
+import type {MusicGenreList} from "./types/genre";
+import readGenrePage from "./repositories/genre/read";
 
 configEnvVariables();
 const app = express();
@@ -15,53 +16,29 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-const prisma = new PrismaClient();
+app.get('/genre', async (_req, res): Promise<Response<MusicGenreList>>  => {
+  // set default page to 1
+  let page = 1;
 
-app.use('/', async (_req, res) => {
-  const random = Math.random() * 100;
+  // if page is specified in query, use it
+  if (typeof _req.query.page === 'string')
+  {
+    page = parseInt(_req.query.page);
+  }
 
-  const newRecord = await prisma.record.create({
-    data: {
-      title: `Record ${random}`,
-      artist: `Artist ${random}`,
-      genre: `Genre ${random}`,
-    },
-  });
+  // if page is not a number or is less than 1, set it to 1
+  if (isNaN(page) || page < 1)
+  {
+    page = 1;
+  }
 
-  await prisma.store.create({
-    data: {
-      name: `Store ${random}`,
-      records: {
-        create: {
-          recordId: newRecord.id,
-          copies: Math.floor(Math.random() * 10) + 1,
-          available: Math.random() < 0.5,
-          price: Math.random() * 100,
-        },
-      },
-    },
-  });
-
-  await prisma.store.create({
-    data: {
-      name: `Store ${random + 1}`,
-      records: {
-        create: {
-          recordId: newRecord.id,
-          copies: Math.floor(Math.random() * 10) + 1,
-          available: Math.random() < 0.5,
-          price: Math.random() * 100,
-        },
-      },
-    },
-  });
-
-  const allUsers = await prisma.record.findMany();
+  // get 10 records from database according to page, including imageUrl of the first record in each genre
+  const genresWithRecordImage = await readGenrePage(page);
 
   const response: ApiResponse<{}> = {
     status: 'success',
-    data: {},
-    message: allUsers.toString(),
+    data: genresWithRecordImage,
+    message: 'Listed ' + genresWithRecordImage.length + ' genres.',
   };
 
   return res.status(200).send(response);

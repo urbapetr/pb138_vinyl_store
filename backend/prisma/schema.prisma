@@ -7,19 +7,21 @@ model Record {
   id        Int             @id @default(autoincrement())
   title     String
   artist    String
+  imageUrl  String?
   genreId   Int
   genre     Genre           @relation(fields: [genreId], references: [id])
   stores    StoreInRecord[]
   createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
+  updatedAt DateTime        @default(now()) @updatedAt
 }
 
 model Store {
   id        Int             @id @default(autoincrement())
   name      String
+  imageUrl  String?
   records   StoreInRecord[]
   createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
+  updatedAt DateTime        @default(now()) @updatedAt
 }
 
 model StoreInRecord {
@@ -37,9 +39,12 @@ model StoreInRecord {
 }
 
 model Genre {
-  id      Int      @id @default(autoincrement())
-  genre   String
-  records Record[]
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  name      String
+  deletedAt DateTime?
+  records   Record[]
 }
 
 generator client {
