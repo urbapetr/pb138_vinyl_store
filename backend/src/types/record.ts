@@ -1,7 +1,14 @@
-interface Record {
+export interface Record {
   title: string,
   artist: string,
   genre: string
 }
 
-export default Record;
+export interface RecordData {
+  artist: string;
+  title: string;
+  available: boolean;
+  price: number;
+  image: string;
+  genres: string[];
+}

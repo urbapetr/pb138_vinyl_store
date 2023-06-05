@@ -9,19 +9,29 @@ const pageItemsCount = 10;
  * @param page - page number, takes 10 records from database according to page
  */
 const readGenrePage = async (page: number): Promise<Genre[]>  => {
-    // get 10 records from database according to page, including imageUrl of the first record in each genre
+    // get 10 records from database according to page, including imageUrl of the most recent record in each genre
     return prisma.genre.findMany({
         skip: (page - 1) * pageItemsCount,
         take: pageItemsCount,
         include: {
             records: {
-                select: {
-                    imageUrl: true
+                include: {
+                    record: {
+                        select: {
+                            imageUrl: true
+                        }
+                    }
                 },
-                take: 1
+                take: 1,
+                orderBy: {
+                    record: {
+                        createdAt: 'desc'
+                    }
+                }
             }
         }
     });
 }
+
 
 export default readGenrePage;

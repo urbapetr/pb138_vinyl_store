@@ -8,8 +8,6 @@ model Record {
   title     String
   artist    String
   imageUrl  String?
-  genreId   Int
-  genre     Genre           @relation(fields: [genreId], references: [id])
   stores    StoreInRecord[]
   createdAt DateTime        @default(now())
   updatedAt DateTime        @default(now()) @updatedAt
@@ -49,7 +47,6 @@ model Genre {
   name      String          @unique
   deletedAt DateTime?
   records   GenreInRecord[]
-  Record    Record[]
 }
 
 model GenreInRecord {
