@@ -45,3 +45,4 @@ yarn.lock
 test*.db
 
 .cache
+prisma/migrations/**/*.sql

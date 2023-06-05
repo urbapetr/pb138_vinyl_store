@@ -1,14 +1,5 @@
-export type Record = {
-    imageUrl: string;
-};
+import type { Genre } from '@prisma/client';
 
-export type MusicGenre = {
-    id: number;
-    createdAt: string;
-    updatedAt: string;
-    name: string;
-    deletedAt: null;
-    records: Record[];
+export type GenreWithImage = Genre & {
+  imageUrl: string;
 };
-
-export type MusicGenreList = MusicGenre[];
