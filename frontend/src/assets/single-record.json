@@ -1,0 +1,38 @@
+{
+  "status": "success",
+  "data": {
+    "id": "4580688e-12b6-4760-998e-367cc84ad6a8",
+    "createdAt": "2023-02-09T07:34:57.557Z",
+    "updatedAt": "2023-02-09T07:34:57.557Z",
+    "title": "May Death Never Stop You",
+    "artist": "My Chemical Romance",
+    "genres": ["Alternative"],
+    "cover": "https://cdns-images.dzcdn.net/images/cover/500d84dd59475c2428f149e85afaf292/500x500-000000-80-0-0.jpg",
+    "deletedAt": null,
+    "stores": [
+      {
+        "id": "4580618e-12b6-4760-998e-367cc84ad6a8",
+        "createdAt": "2023-02-09T07:34:57.557Z",
+        "updatedAt": "2023-02-09T07:34:57.557Z",
+        "name": "Super Vinyls",
+        "link": "https://www.supervinyls.com/specific-product-url",
+        "logo": "https://cdns-images.dzcdn.net/images/cover/500d84dd59475c2428f149e85afaf292/500x500-000000-80-0-0.jpg",
+        "price": 19.99,
+        "available": true,
+        "deletedAt": null
+      },
+      {
+        "id": "4580688e-1236-4760-998e-367cc84ad6a8",
+        "createdAt": "2023-02-09T07:34:57.557Z",
+        "updatedAt": "2023-02-09T07:34:57.557Z",
+        "name": "Cool Vinyls",
+        "link": "https://www.coolvinyls.com/specific-product-url",
+        "logo": "https://cdns-images.dzcdn.net/images/cover/500d84dd59475c2428f149e85afaf292/500x500-000000-80-0-0.jpg",
+        "price": 24.99,
+        "available": false,
+        "deletedAt": null
+      }
+    ]
+  },
+  "message": "Listed record"
+}

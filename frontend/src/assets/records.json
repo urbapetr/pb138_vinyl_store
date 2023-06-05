@@ -1,0 +1,76 @@
+{
+	"status": "success",
+	"data": [
+		{
+			"id": "4580688e-12b6-4760-998e-367cc84ad6a8",
+			"createdAt": "2023-02-09T07:34:57.557Z",
+			"updatedAt": "2023-02-09T07:34:57.557Z",
+			"title": "Sad Wings of Destiny",
+            "artist": "Judas Priest",
+            "genres": [ "Metal", "Rock" ],
+            "cover": "https://cdns-images.dzcdn.net/images/cover/402454974e55921bd2cb6e352331e505/500x500-000000-80-0-0.jpg",
+            "price": 29.99,
+			"priceUrl": "https://urlwithcheapestproduct",
+			"deletedAt": null
+		},
+		{
+			"id": "4580688e-12b6-4760-928e-367cc84ad6a8",
+			"createdAt": "2023-02-09T07:34:57.557Z",
+			"updatedAt": "2023-02-09T07:34:57.557Z",
+			"title": "May Death Never Stop You",
+            "artist": "My Chemical Romance",
+            "genres": [ "Alternative" ],
+            "cover": "https://cdns-images.dzcdn.net/images/cover/500d84dd59475c2428f149e85afaf292/500x500-000000-80-0-0.jpg",
+            "price": 19.99,
+			"priceUrl": "https://urlwithcheapestproduct",
+			"deletedAt": null
+		},
+		{
+			"id": "45c0688e-12b6-4760-998e-367cc84ad6a8",
+			"createdAt": "2023-02-09T07:34:57.557Z",
+			"updatedAt": "2023-02-09T07:34:57.557Z",
+            "title": "how i'm feeling now",
+			"artist": "Charli XCX",
+            "genres": [ "Pop" ],
+            "cover": "https://cdns-images.dzcdn.net/images/cover/c4e825ca0458ec35d8afda0e451766c1/500x500-000000-80-0-0.jpg",
+            "price": null,
+			"deletedAt": null
+		},
+		{
+			"id": "4580688e-12b6-4460-998e-367cc84ad6a8",
+			"createdAt": "2023-02-09T07:34:57.557Z",
+			"updatedAt": "2023-02-09T07:34:57.557Z",
+			"title": "amo",
+            "artist": "Bring Me The Horizon",
+            "genres": [ "Rock" ],
+            "cover": "https://e-cdn-images.dzcdn.net/images/cover/3a69565903e367f0670ad1d42acb22db/264x264-000000-80-0-0.jpg",
+            "price": null,
+			"deletedAt": null
+		},
+		{
+			"id": "4580e88e-12b6-4760-998e-367cc84ad6a8",
+			"createdAt": "2023-02-09T07:34:57.557Z",
+			"updatedAt": "2023-02-09T07:34:57.557Z",
+			"title": "Gvllow",
+            "artist": "Gvllow",
+            "genres": [ "Rap" ],
+            "cover": "https://cdns-images.dzcdn.net/images/cover/5fe94aa19d89e77014c3a9585c1a055b/500x500-000000-80-0-0.jpg",
+            "price": 24.99,
+			"priceUrl": "https://urlwithcheapestproduct",
+			"deletedAt": null
+		},
+		{
+			"id": "4580288e-12b6-4760-998e-367cc84ad6a8",
+			"createdAt": "2023-02-09T07:34:57.557Z",
+			"updatedAt": "2023-02-09T07:34:57.557Z",
+			"title": "Really long unique title name, that's definitly not just trying to break my design",
+            "artist": "Gvllow",
+            "genres": [ "Rap" ],
+            "cover": "https://cdns-images.dzcdn.net/images/cover/5fe94aa19d89e77014c3a9585c1a055b/500x500-000000-80-0-0.jpg",
+            "price": 24.99, 
+			"priceUrl": "https://urlwithcheapestproduct",
+			"deletedAt": null
+		}
+	],
+	"message": "Listed 6 records"
+}
