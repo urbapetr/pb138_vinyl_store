@@ -5,8 +5,36 @@ import type Vinyl from '../../../types/vinyl';
 
 // const URL = 'https://experiencevinyl.com/collections/vinyl-record-lps';
 const URL = 'https://www.musicstack.com/seller.cgi?seller=64033&search_type=&genre=&media=&find=&next='
-const defaultDelay = 1000;
+const defaultDelay = 1;
 
+
+const getContents = async (url: string) => {
+  const contents = await fetchFromWebOrCache(url);
+  if (contents == null) {
+    throw new Error(`could not get contents: ${url}`);
+  }
+
+  let $ = cheerio.load(contents);
+  const captcha = $('.captcha-mid');
+  if (captcha.length === 0) {
+    return contents;
+  }
+  console.log("CAPTCHA!!!!!");
+  const contents2 = await fetchFromWebOrCache(url, true);
+  if (contents2 == null) {
+    throw new Error(`could not get contents: ${url}`);
+  }
+
+  $ = cheerio.load(contents2);
+  const captcha2 = $('.captcha-mid');
+  console.log(captcha2.html());
+
+  if(captcha2.length === 0) {
+    return contents2;
+  }
+  throw new Error("CAPTCHA REQUIRED!!! Ending");
+
+}
 // /html/body/center/table/tbody/tr/td/form/table[4]
 const getProductUlrs = async (pageUrl: string): Promise<Array<string>> => {
   const contents = await fetchFromWebOrCache(pageUrl);
@@ -33,7 +61,8 @@ const getProductUlrs = async (pageUrl: string): Promise<Array<string>> => {
 
 
 const getProduct = async (detailUrl: string): Promise<Vinyl> => {
-  const contents = await fetchFromWebOrCache(detailUrl);
+  // const contents = await fetchFromWebOrCache(detailUrl);
+  const contents = await getContents(detailUrl);
   if (contents == null) {
     throw new Error('Invalid data. Unable to create Vinyl object.');
   }
@@ -43,7 +72,6 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
   const title = text.slice(1).join('-').trim();
   const quantityText = $('span[itemprop="eligibleQuantity"]').attr('content');
   const quantity = quantityText ? parseInt(quantityText) : NaN;
-  console.log(quantityText);
   // const available = $('span[itemprop="availability"]').attr('content');
   const available = quantity ? quantity >= 1 : false;
   const price = parseFloat($('font[face="arial"][size="+2"][color="black"] > b').text().replace(/[^0-9.]/g, ''));
@@ -53,10 +81,8 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
   // const genres = [$('td.t:contains("Genre:") + td.t').text()];
   // TODO: really only one genre?
   const genre = $('td.t b:contains("Genre:")').parent().parent().find("td:eq(2)"); //.next('td.t');
-  console.log(genre.html());
   const genres = [genre.text()];
   const result = {artist, title, available, image, quantity, price, genres};
-  console.log(result);
   return result;
 
   
