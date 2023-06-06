@@ -40,7 +40,7 @@ backend-build:
   script:
     - cd backend
     - npm i
-    - npm run build
+    - npx tsc
     
 
 backend-eslint:
