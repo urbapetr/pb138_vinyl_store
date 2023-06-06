@@ -37,7 +37,10 @@ backend-build:
   tags:
     - shared-fi
   script:
-    - echo "Compiling the backend code..."
+    - cd backend
+    - npm i
+    - npm run build
+    
 
 backend-eslint:
   stage: build
@@ -57,7 +60,9 @@ frontend-build:
   tags:
     - shared-fi
   script:
-    - echo "Compiling the frontend code..."
+    - cd frontend
+    - npm i
+    - npm run build
 
 frrontend-eslint:
   stage: build
