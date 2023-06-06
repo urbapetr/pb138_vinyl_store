@@ -1,5 +1,6 @@
-import { createRecord } from './createController';
+import { readRecord, readRecords } from './readController';
 
 export default {
-  createRecord,
+  readRecord,
+  readRecords,
 };

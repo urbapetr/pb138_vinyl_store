@@ -1,24 +1,20 @@
 import { Result } from '@badrap/result';
 import type { GenreInRecord } from '@prisma/client';
-import { DbResult, PrismaTransactionHandle, genericError } from '../types';
+import type { DbResult, PrismaTransactionHandle } from '../types';
 
 const create = async (
-  genreId: number,
-  recordId: number,
+  genreId: string,
+  recordId: string,
   tx: PrismaTransactionHandle
 ): DbResult<GenreInRecord> => {
-  try {
-    const genreRecord = await tx.genreInRecord.create({
-      data: {
-        genreId,
-        recordId,
-      },
-    });
+  const genreRecord = await tx.genreInRecord.create({
+    data: {
+      genreId,
+      recordId,
+    },
+  });
 
-    return Result.ok(genreRecord);
-  } catch (e) {
-    return genericError;
-  }
+  return Result.ok(genreRecord);
 };
 
 export default create;

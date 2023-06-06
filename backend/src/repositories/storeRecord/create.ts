@@ -3,8 +3,8 @@ import { Result } from '@badrap/result';
 import { DbResult, PrismaTransactionHandle, genericError } from '../types';
 
 const create = async (
-  storeId: number,
-  recordId: number,
+  storeId: string,
+  recordId: string,
   available: boolean,
   price: number,
   tx: PrismaTransactionHandle
