@@ -9,7 +9,7 @@ import * as VinylPursuit from './crawlers/pages/VinylPursuit';
 import { delay } from './crawlers/generic';
 
 // @ts-ignore
-async function vinylpursuit() {
+export async function vinylpursuit() {
   const pageCount: number | null = await VinylPursuit.getPagesCount();
   console.log(pageCount);
   // const tmp = await MusicStack.getProductUlrs(`https://vinylpursuit.com/collections/all-vinyl?page=${progressItems}`);
@@ -47,11 +47,11 @@ async function main() {
   //
   //
   let allUrls: string[] = [];
-  let currentPage = 0;
+  //let currentPage = 0;
   let isEnd = false;
   let progressItems = 0;
   while (!isEnd) {
-    console.log(`On page $currentPage`);
+    //console.log(`On page $currentPage`);
 
     const tmp = await MusicStack.getProductUlrs(
       `https://www.musicstack.com/seller.cgi?seller=64033&search_type=&genre=&media=&find=&next=${progressItems}`
@@ -60,7 +60,7 @@ async function main() {
     console.log(`loaded ${tmp.length} items from ${progressItems}`);
     allUrls = [...allUrls, ...tmp];
     progressItems += 500;
-    currentPage += 1;
+    //currentPage += 1;
     if (tmp.length !== 500) {
       isEnd = true;
     }
@@ -91,7 +91,7 @@ async function main() {
 // main();
 // vinylpursuit();
 // @ts-ignore
-async function vinylpursuit2() {
+export async function vinylpursuit2() {
   const start = 50;
   const end = 100;
 
@@ -105,7 +105,7 @@ async function vinylpursuit2() {
 }
 
 // @ts-ignore
-async function experiencevinyl() {
+export async function experiencevinyl() {
   const start = 1;
   const end = 50;
 
@@ -122,7 +122,7 @@ async function experiencevinyl() {
 }
 
 // @ts-ignore
-async function musicstack() {
+export async function musicstack() {
   const start = 1;
   const end = 2;
 
@@ -138,6 +138,6 @@ async function musicstack() {
   console.log('JSON data saved to file.');
 }
 
-// experiencevinyl();
+experiencevinyl();
 // vinylpursuit2();
-musicstack();
+// musicstack();

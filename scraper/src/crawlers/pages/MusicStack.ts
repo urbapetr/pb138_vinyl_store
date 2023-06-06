@@ -1,10 +1,13 @@
 /* eslint-disable no-await-in-loop */
 import cheerio from 'cheerio';
 import { delay, fetchFromWebOrCache } from '../generic';
+import { send } from '../../sender';
+import type { Vinyl } from '../../models/vinylTypes';
 // import { extractProduct } from '../products/ExperienceVinylProduct';
-import type Vinyl from '../../../types/vinyl';
 
 // const URL = 'https://experiencevinyl.com/collections/vinyl-record-lps';
+const UUID = '4a0b0b4a-047e-11ee-be56-0242ac120002';
+
 const URL =
   'https://www.musicstack.com/seller.cgi?seller=64033&search_type=&genre=&media=&find=&next=';
 const defaultDelay = 1;
@@ -168,6 +171,7 @@ const getProducts = async (
       const data = await getProduct(url);
       console.log(data);
       vinyls.push(data);
+      await send(data, UUID);
       await delay(defaultDelay);
     }
   }

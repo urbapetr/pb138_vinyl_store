@@ -1,4 +1,4 @@
-interface Vinyl {
+export interface Vinyl {
   title: string;
   artist: string;
   genres: string[];

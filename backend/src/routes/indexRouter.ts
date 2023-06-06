@@ -6,7 +6,7 @@ const indexRouter = Router();
 
 indexRouter.route('/genre').get(genre.readGenres);
 
-indexRouter.route('/record').get(record.readRecords);
+indexRouter.route('/record').get(record.readRecords).post(record.createRecord);
 
 indexRouter.route('/record/:id').get(record.readRecord);
 

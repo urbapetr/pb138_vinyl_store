@@ -1,9 +1,11 @@
 /* eslint-disable no-await-in-loop */
 import cheerio from 'cheerio';
 import { delay, fetchFromWebOrCache } from '../generic';
+import { send } from '../../sender';
+import type { Vinyl } from '../../models/vinylTypes';
 // import { extractProduct } from '../products/ExperienceVinylProduct';
-import type Vinyl from '../../../types/vinyl';
 
+const UUID = '3ca22494-047e-11ee-be56-0242ac120002';
 const defaultDelay = 1000;
 
 const URL = 'https://vinylpursuit.com/collections/all-vinyl?page=1';
@@ -114,6 +116,7 @@ const getProducts = async (
       console.log(`Doing product ${i} ${url}`);
       const data = await getProduct(`https://vinylpursuit.com${url}`);
       console.log(data);
+      await send(data, UUID);
       vinyls.push(data);
       await delay(defaultDelay);
     }
