@@ -1,9 +1,11 @@
 /* eslint-disable no-await-in-loop */
 import cheerio from 'cheerio';
 import { delay, fetchFromWebOrCache } from '../generic';
+import type { Vinyl } from '../../models/vinylTypes';
+import { send } from '../../sender';
 // import { extractProduct } from '../products/ExperienceVinylProduct';
-import type Vinyl from '../../../types/vinyl';
 
+const UUID = '44758828-047e-11ee-be56-0242ac120002';
 const URL = 'https://experiencevinyl.com/collections/vinyl-record-lps';
 const defaultDelay = 1000;
 
@@ -100,6 +102,9 @@ const getProducts = async (
     console.log('PARSED: ');
     console.log(data);
     vinyls = [...vinyls, ...data];
+    data.forEach(async (vinyl) => {
+      await send(vinyl, UUID);
+    });
     await delay(defaultDelay);
   }
 

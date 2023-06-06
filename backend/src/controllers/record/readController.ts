@@ -41,7 +41,7 @@ export const readRecords = async (req: Request, res: Response) => {
     }
 
     // get 10 records from database according to page, including imageUrl of the first record in each genre
-    const genresWithRecordImage = await Record.readPage(page);
+    const genresWithRecordImage = await Record.readPage(page, req.query);
 
     if (!genresWithRecordImage.isOk) {
       res.status(500).send({ error: 'Something went wrong' });

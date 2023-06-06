@@ -1,4 +1,5 @@
 import { Result } from '@badrap/result';
+import type { Prisma } from '@prisma/client';
 import client from '../client';
 import { PAGE_ITEMS_COUNT } from '../consts';
 import type { PrismaTransactionHandle } from '../types';
@@ -54,13 +55,94 @@ export const readById = async (id: string) => {
   return Result.ok(record);
 };
 
-export const readPage = async (page: number) => {
+const insensitiveMode = 'insensitive';
+
+export const readPage = async (page: number, filters: any) => {
+  const whereCondition: Prisma.RecordWhereInput = {};
+
+  if (filters.genre) {
+    whereCondition.genres = {
+      some: {
+        genre: {
+          name: filters.genre,
+        },
+      },
+    };
+  }
+
+  if (filters.lowPrice) {
+    whereCondition.stores = {
+      some: {
+        price: {
+          gte: Number(filters.lowPrice),
+        },
+      },
+    };
+  }
+
+  if (filters.highPrice) {
+    whereCondition.stores = {
+      some: {
+        price: {
+          lte: Number(filters.highPrice),
+        },
+      },
+    };
+  }
+
+  if (filters.available) {
+    whereCondition.stores = {
+      some: {
+        available: filters.available === 'true',
+      },
+    };
+  }
+
+  if (filters.title) {
+    whereCondition.title = {
+      contains: filters.title,
+      mode: insensitiveMode,
+    };
+  }
+
+  if (filters.artist) {
+    whereCondition.artist = {
+      contains: filters.artist,
+      mode: insensitiveMode,
+    };
+  }
+
+  if (filters.needle) {
+    whereCondition.OR = [
+      {
+        title: {
+          contains: filters.needle,
+          mode: insensitiveMode,
+        },
+      },
+      {
+        artist: {
+          contains: filters.needle,
+          mode: insensitiveMode,
+        },
+      },
+    ];
+  }
+
+  let orderBy: Prisma.RecordOrderByWithRelationInput = {};
+
+  if (filters.orderby) {
+    const [column, direction] = filters.orderby.split('_');
+    orderBy = { [column]: direction };
+  }
+
   const records = await client.record.findMany({
     skip: (page - 1) * PAGE_ITEMS_COUNT,
     take: PAGE_ITEMS_COUNT,
+    where: whereCondition,
+    orderBy,
     include: {
       stores: {
-        take: 1,
         select: {
           price: true,
           available: true,

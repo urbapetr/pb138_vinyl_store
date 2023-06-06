@@ -49,7 +49,7 @@ export const readById = async (
  */
 export const readPage = async (page: number): DbResult<Genre[]> => {
   // get 10 records from database according to page, including imageUrl of the most recent record in each genre
-  const genres = await client.genre.findMany({
+  let genres = await client.genre.findMany({
     skip: (page - 1) * PAGE_ITEMS_COUNT,
     take: PAGE_ITEMS_COUNT,
     include: {
@@ -69,7 +69,15 @@ export const readPage = async (page: number): DbResult<Genre[]> => {
         },
       },
     },
+    orderBy: {
+      records: {
+        _count: 'desc',
+      },
+    },
   });
+
+  // Remove empty genres
+  genres = genres.filter((genre) => genre.records.length > 0);
 
   return Result.ok(genres);
 };
