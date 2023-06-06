@@ -1,5 +1,5 @@
 INSERT INTO public."Genre" (id, name) VALUES
-                              (gen_random_uuid(), 'All'),
+                              ('cd5917f6-0495-11ee-be56-0242ac120002', 'All'),
                               (gen_random_uuid(), 'Blues'),
                               (gen_random_uuid(), 'Classic rock'),
                               (gen_random_uuid(), 'Country'),
