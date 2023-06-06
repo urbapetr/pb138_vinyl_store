@@ -1,6 +1,6 @@
 import { boolean, number, object, string } from 'yup';
 
-const recordSchema = object().shape({
+const recordsSchema = object().shape({
   genre: string(),
   lowPrice: number(),
   highPrice: number(),
@@ -11,4 +11,4 @@ const recordSchema = object().shape({
   orderby: string(),
 });
 
-export default recordSchema;
+export default recordsSchema;
