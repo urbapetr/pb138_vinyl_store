@@ -6,10 +6,13 @@ import client from '../client';
 import Genre from '../genre';
 import { readByProduct } from './read';
 import genreRecord from '../genreRecord';
+import storeRecord from '../storeRecord';
 
 const create = async (data: RecordData, storeId: string): DbResult<Record> => {
   return client.$transaction(async (tx) => {
     let record: Result<Record>;
+    let newRecord = false;
+
     try {
       record = await readByProduct(data.title, data.artist, tx);
     } catch (e) {
@@ -33,10 +36,25 @@ const create = async (data: RecordData, storeId: string): DbResult<Record> => {
       });
 
       record = Result.ok(recordData);
+      newRecord = true;
     }
 
     if (!record.isOk) {
       return genericError;
+    }
+
+    if (!newRecord) {
+      try {
+        await storeRecord.read(storeId, record.value.id, tx);
+      } catch {
+        await storeRecord.create(
+          storeId,
+          record.value.id,
+          data.price,
+          data.available,
+          tx
+        );
+      }
     }
 
     // Yup, javascript is a gay language
