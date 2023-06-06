@@ -1,7 +1,7 @@
 export interface Record {
-  title: string,
-  artist: string,
-  genre: string
+  title: string;
+  artist: string;
+  genre: string;
 }
 
 export interface RecordData {

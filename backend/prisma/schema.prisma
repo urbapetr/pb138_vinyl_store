@@ -4,7 +4,7 @@ datasource db {
 }
 
 model Record {
-  id        Int             @id @default(autoincrement())
+  id        String          @id @default(uuid())
   title     String
   artist    String
   imageUrl  String?
@@ -17,7 +17,7 @@ model Record {
 }
 
 model Store {
-  id        Int             @id @default(autoincrement())
+  id        String          @id @default(uuid())
   name      String
   imageUrl  String?
   url       String?
@@ -27,8 +27,8 @@ model Store {
 }
 
 model StoreInRecord {
-  storeId   Int
-  recordId  Int
+  storeId   String
+  recordId  String
   available Boolean
   price     Float
   createdAt DateTime @default(now())
@@ -41,7 +41,7 @@ model StoreInRecord {
 }
 
 model Genre {
-  id        Int             @id @default(autoincrement())
+  id        String          @id @default(uuid())
   createdAt DateTime        @default(now())
   updatedAt DateTime        @default(now()) @updatedAt
   name      String          @unique
@@ -50,8 +50,8 @@ model Genre {
 }
 
 model GenreInRecord {
-  genreId  Int
-  recordId Int
+  genreId  String
+  recordId String
   genre    Genre  @relation(fields: [genreId], references: [id])
   record   Record @relation(fields: [recordId], references: [id])
 
