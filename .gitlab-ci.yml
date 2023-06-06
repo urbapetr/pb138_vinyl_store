@@ -33,6 +33,7 @@ variables:
 backend-build:
   stage: build
   extends: .backend
+  image: node:latest
   needs: []
   tags:
     - shared-fi
@@ -56,6 +57,7 @@ backend-eslint:
 frontend-build:
   stage: build
   extends: .frontend
+  image: node:latest
   needs: []
   tags:
     - shared-fi
