@@ -5,6 +5,7 @@ import { DbResult, genericError } from '../types';
 import client from '../client';
 import Genre from '../genre';
 import { readByProduct } from './read';
+import genreRecord from '../genreRecord';
 
 const create = async (data: RecordData, storeId: number): DbResult<Record> => {
   try {
@@ -30,17 +31,23 @@ const create = async (data: RecordData, storeId: number): DbResult<Record> => {
         record = Result.ok(newRecord);
       }
 
-      const genres = ['All', ...data.genres];
+      if (!record.isOk) {
+        return genericError;
+      }
 
-      genres.forEach(async (genre) => {
+      data.genres.forEach(async (genre) => {
         let dbGenre = await Genre.readByName(genre, tx);
 
         if (dbGenre.isErr) {
           dbGenre = await Genre.create(genre, tx);
         }
+
+        if (dbGenre.isOk && record.isOk) {
+          genreRecord.create(dbGenre.value.id, record.value.id, tx);
+        }
       });
 
-      return Result.ok(record);
+      return record;
     });
   } catch (e) {
     return genericError;
