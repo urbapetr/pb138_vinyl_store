@@ -1,9 +1,9 @@
 import { Result } from '@badrap/result';
+import type { Prisma } from '@prisma/client';
 import client from '../client';
 import { PAGE_ITEMS_COUNT } from '../consts';
 import type { PrismaTransactionHandle } from '../types';
 import { NonexistentRecordError } from '../errors';
-import type { Prisma } from "@prisma/client";
 
 export const readByProduct = async (
   title: string,
@@ -58,7 +58,7 @@ export const readById = async (id: string) => {
 const insensitiveMode = 'insensitive';
 
 export const readPage = async (page: number, filters: any) => {
-  let whereCondition: Prisma.RecordWhereInput = {};
+  const whereCondition: Prisma.RecordWhereInput = {};
 
   if (filters.genre) {
     whereCondition.genres = {
@@ -140,7 +140,7 @@ export const readPage = async (page: number, filters: any) => {
     skip: (page - 1) * PAGE_ITEMS_COUNT,
     take: PAGE_ITEMS_COUNT,
     where: whereCondition,
-    orderBy: orderBy,
+    orderBy,
     include: {
       stores: {
         select: {
@@ -168,4 +168,3 @@ export const readPage = async (page: number, filters: any) => {
 
   return Result.ok(records);
 };
-
