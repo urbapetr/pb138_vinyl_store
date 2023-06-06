@@ -1,3 +1,5 @@
-DELETE FROM "StoreInRecord" WHERE "recordId" IN (SELECT "id" FROM "Record");
-DELETE FROM "Record" WHERE "genreId" IN (SELECT "id" FROM "Genre");
+DELETE FROM "StoreInRecord";
+DELETE FROM "Record";
+DELETE FROM "GenreInRecord";
 DELETE FROM "Genre";
+DELETE FROM "Store";
