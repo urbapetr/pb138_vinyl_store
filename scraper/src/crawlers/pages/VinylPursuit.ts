@@ -111,7 +111,11 @@ const getProducts = async (
   }
   // await delay(5000);
   // TODO pages count
-  for (let i = pageStart ?? 1; i < (pageLimit ?? pageCount); i += 1) {
+  for (
+    let i = pageStart ?? 1;
+    i < (pageLimit ? Math.min(pageCount, pageLimit) : pageCount);
+    i += 1
+  ) {
     const url = await getProductUlrs(
       `https://vinylpursuit.com/collections/all-vinyl?page=${i}`
     );
