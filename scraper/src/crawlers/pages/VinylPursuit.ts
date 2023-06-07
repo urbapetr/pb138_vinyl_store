@@ -36,7 +36,7 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
   const $ = cheerio.load(contents);
   const text = $('h1[itemprop="name"]').text().split('–');
   const artist = text[0] ? text[0].trim() : '';
-  const title = text.slice(1).join('-').trim();
+  const title = text[1] ? text[1].trim() : '';
   // const availability = $('span[itemprop="availability"]').attr('content');
   const available = true; // they don't list sold out i think
   const price = parseFloat(
