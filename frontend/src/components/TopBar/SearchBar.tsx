@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export function SearchBar() {
+  const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState('');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,12 +22,15 @@ export function SearchBar() {
             />
           </div>
         </div>
-        <Link
-          to={`/search?needle=${encodeURIComponent(searchInput)}`}
+        <button
+          type="button"
           className="btn join-item"
+          onClick={() => {
+            navigate(`/search?needle=${encodeURIComponent(searchInput)}`);
+          }}
         >
           Search
-        </Link>
+        </button>
       </div>
     </form>
   );
