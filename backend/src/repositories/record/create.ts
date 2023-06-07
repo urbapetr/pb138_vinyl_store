@@ -78,8 +78,14 @@ const create = async (data: RecordData, storeId: string): DbResult<Record> => {
         // eslint-disable-next-line no-await-in-loop
         await genreRecord.read(dbGenre.value.id, record.value.id, tx);
       } catch (e) {
-        // eslint-disable-next-line no-await-in-loop
-        await genreRecord.create(dbGenre.value.id, record.value.id, tx);
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          await genreRecord.create(dbGenre.value.id, record.value.id, tx);
+        }
+        catch (e) {
+          // suppress the exception that can occur if a record is created twice
+          console.log(e);
+        }
       }
     }
 
