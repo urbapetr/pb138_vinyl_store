@@ -22,8 +22,8 @@ export function StorePanel({
 }: StorePanelProps) {
   return (
     <div className="font-aoboshi bg-white mx-8 mb-8 mt-4 p-4 xl:mb-4">
-      <div className="flex flex-col xl:flex-row">
-        <div className="flex h-16 xl:flex-1">
+      <div className="flex flex-col xl:flex-row gap-x-8">
+        <div className="flex h-16 xl:flex-1 gap-x-8">
           <div className="flex-1">
             <Link to={storeUrl}>
               <StoreLogo alt={name} src={logo} />
