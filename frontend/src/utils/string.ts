@@ -1,10 +1,10 @@
-export const joinArray = (array: { name: string }[]) => {
+export const joinArray = (array: { genre: { name: string } }[]) => {
   let output = '';
   array.forEach((e, i) => {
     if (i !== array.length - 1) {
-      output += `${e.name}, `;
+      output += `${e.genre.name}, `;
     } else {
-      output += e.name;
+      output += e.genre.name;
     }
   });
 

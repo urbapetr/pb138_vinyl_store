@@ -5,8 +5,10 @@ export interface MinimalStore {
 }
 
 export interface Store extends MinimalStore {
-  id: number;
-  name: string;
-  link: string;
-  logo: string;
+  store: {
+    id: string;
+    imageUrl: string;
+    name: string;
+    url: string;
+  };
 }

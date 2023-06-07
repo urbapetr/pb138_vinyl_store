@@ -31,7 +31,7 @@ export function GenrePage() {
               <ProductCard
                 key={record.id}
                 artist={record.artist}
-                cover={record.cover}
+                imageUrl={record.imageUrl}
                 genres={record.genres}
                 id={record.id}
                 stores={record.stores}

@@ -28,7 +28,7 @@ export function RecordPage() {
       <div className="mb-8 lg:w-1/2">
         <DetailCard
           artist={record.data.artist}
-          cover={record.data.cover}
+          imageUrl={record.data.imageUrl}
           genres={record.data.genres}
           title={record.data.title}
         />
@@ -49,7 +49,7 @@ export function RecordPage() {
           {record.data.stores
             .sort((a, b) => {
               if (orderByRecordFilter === 'name') {
-                return a.name.localeCompare(b.name, 'en');
+                return a.store.name.localeCompare(b.store.name, 'en');
               }
 
               return a.price - b.price;
@@ -60,12 +60,13 @@ export function RecordPage() {
               }
               return (
                 <StorePanel
-                  key={store.id}
-                  name={store.name}
+                  key={store.store.id}
+                  name={store.store.name}
                   available={store.available}
-                  link={store.link}
-                  logo={store.logo}
+                  link={store.productUrl}
+                  logo={store.store.imageUrl}
                   price={store.price}
+                  storeUrl={store.store.url}
                 />
               );
             })}

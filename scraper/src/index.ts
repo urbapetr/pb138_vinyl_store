@@ -138,6 +138,6 @@ export async function musicstack() {
   console.log('JSON data saved to file.');
 }
 
-experiencevinyl();
-// vinylpursuit2();
+// experiencevinyl();
+vinylpursuit2();
 // musicstack();

@@ -1,12 +1,21 @@
-import { MinimalStore } from './storeTypes';
+import { MinimalStore, Store } from './storeTypes';
 
-export interface Record {
+export interface RecordBase {
   id: string;
   title: string;
   artist: string;
   genres: {
-    name: string;
+    genre: {
+      name: string;
+    };
   }[];
-  cover: string;
+  imageUrl: string;
+}
+
+export interface Record extends RecordBase {
   stores: MinimalStore[];
+}
+
+export interface RecordFull extends RecordBase {
+  stores: Store[];
 }

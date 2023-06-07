@@ -10,13 +10,13 @@ export function ProductCard({
   artist,
   genres,
   stores,
-  cover,
+  imageUrl,
 }: Record) {
   return (
     <div className="h-full bg-neutral-800 flex flex-col">
-      <Link to={`/records/${id}`}>
-        <div>
-          <CardImage src={cover} alt={`${title}-${artist}`} />
+      <Link to={`/records/${id}`} className="h-full">
+        <div className="h-full bg-neutral-200">
+          <CardImage src={imageUrl} alt={`${title}-${artist}`} />
         </div>
       </Link>
       <div className="py-2 px-4 font-monomaniac text-xl text-white">
@@ -24,7 +24,7 @@ export function ProductCard({
           <div>
             {title} - {artist}
           </div>
-          <div>{joinArray(genres)}</div>
+          {genres.length > 0 && <div>{joinArray(genres)}</div>}
         </Link>
       </div>
       <div className="py-2 text-center font-aoboshi mt-auto">

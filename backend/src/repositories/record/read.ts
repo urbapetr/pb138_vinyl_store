@@ -31,6 +31,13 @@ export const readById = async (id: string) => {
     },
     include: {
       genres: {
+        where: {
+          genre: {
+            NOT: {
+              name: 'All',
+            },
+          },
+        },
         select: {
           genre: {
             select: {
@@ -43,6 +50,15 @@ export const readById = async (id: string) => {
         select: {
           price: true,
           available: true,
+          productUrl: true,
+          store: {
+            select: {
+              id: true,
+              imageUrl: true,
+              name: true,
+              url: true,
+            },
+          },
         },
       },
     },
@@ -147,6 +163,7 @@ export const readPage = async (page: number, filters: any) => {
         select: {
           price: true,
           available: true,
+          productUrl: true,
         },
         orderBy: {
           price: 'desc',
