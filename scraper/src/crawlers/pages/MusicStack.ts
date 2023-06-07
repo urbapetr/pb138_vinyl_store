@@ -179,10 +179,12 @@ const getProducts = async (
     const url = allUrls[i];
     if (url) {
       console.log(`Doing product ${i} ${url}`);
-      const data = await getProduct(url);
-      console.log(data);
-      vinyls.push(data);
-      await send(data, UUID);
+      try {
+        const data = await getProduct(url);
+        await send(data, UUID);
+      } catch (e) {
+        console.log(`MS:ERROR! getProduct failed: ${e}`);
+      }
       await delay(defaultDelay);
     }
   }
