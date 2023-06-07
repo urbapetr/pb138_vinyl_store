@@ -86,6 +86,9 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
       .replace(/[^0-9.]/g, '')
   );
   const image = $('.fancybox > img').attr('src');
+  if (image === undefined) {
+    throw new Error('Image not found');
+  }
 
   // const genres = [$('td.t:contains("Genre:") + td.t').text()];
   // TODO: really only one genre?
