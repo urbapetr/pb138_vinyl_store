@@ -46,7 +46,7 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
   );
   let image = $('#product-featured-image').attr('src');
   if (image) {
-    image = image.replace(/^\/\//, '');
+    image = `http:${image}`;
   }
 
   // they use various formatting on description T.T
