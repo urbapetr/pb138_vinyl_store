@@ -123,12 +123,16 @@ const getProducts = async (
   for (let i = 1; i < allUrls.length; i += 1) {
     const url = allUrls[i];
     if (url) {
-      console.log(`Doing product ${i} ${url}`);
-      const data = await getProduct(`https://vinylpursuit.com${url}`);
-      console.log(data);
-      await send(data, UUID);
-      vinyls.push(data);
-      await delay(defaultDelay);
+      try {
+        console.log(`Doing product ${i} ${url}`);
+        const data = await getProduct(`https://vinylpursuit.com${url}`);
+        console.log(data);
+        await send(data, UUID);
+        vinyls.push(data);
+        await delay(defaultDelay);
+      } catch (e) {
+        console.log(`Unable to catch getProduct for ${url}`);
+      }
     }
   }
 
