@@ -18,7 +18,7 @@ export const createRecord = async (req: Request, res: Response) => {
     res.status(201).send({ data: result.value });
   } catch (e) {
     if (e instanceof ValidationError) {
-      res.status(500).send({ error: e.message });
+      res.status(400).send({ error: e.message });
     } else {
       res.status(500).send({ error: 'Something went wrong' });
     }
