@@ -17,8 +17,14 @@ export const readByProduct = async (
 ): Promise<Result<Prisma.RecordGetPayload<{}>, NonexistentRecordError>> => {
   const record = await tx.record.findFirst({
     where: {
-      artist,
-      title,
+      artist: {
+        equals: artist,
+        mode: 'insensitive',
+      },
+      title: {
+        equals: title,
+        mode: 'insensitive',
+      },
     },
   });
 
