@@ -65,7 +65,15 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
     console.error(`ERROR INVESTIGATE: '${path}.html'`);
   }
 
-  const result = { artist, title, available, price, image, genres };
+  const result = {
+    artist,
+    title,
+    available,
+    price,
+    image,
+    genres,
+    productUrl: detailUrl,
+  };
 
   return result;
 };

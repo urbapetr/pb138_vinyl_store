@@ -7,6 +7,7 @@ import { send } from '../../sender';
 
 const UUID = '44758828-047e-11ee-be56-0242ac120002';
 const URL = 'https://experiencevinyl.com/collections/vinyl-record-lps';
+const baseUrl = 'https://experiencevinyl.com';
 const defaultDelay = 1000;
 
 const getProductsFromPage = async (pageUrl: string): Promise<Array<Vinyl>> => {
@@ -48,10 +49,25 @@ const getProductsFromPage = async (pageUrl: string): Promise<Array<Vinyl>> => {
       .trim(); // === "Add to Cart";
     // "Pre-Order" and "Add to Cart" mean available; if quick-add__submit is not found, the cannot be bought
     // const sale = $(data).find('.price-item--sale').text().trim();
+
+    let productUrl = $(data).find('.full-unstyled-link').attr('href');
+    if (productUrl === undefined) {
+      throw new Error('Could now get productUrl');
+    }
+    productUrl = baseUrl + productUrl;
+
     console.log(`This is ${i} children`);
     console.log(availableText);
     const available = !!availableText;
-    const res: Vinyl = { image, price, artist, title, genres: [], available };
+    const res: Vinyl = {
+      image,
+      price,
+      artist,
+      title,
+      genres: [],
+      available,
+      productUrl,
+    };
     console.log(res);
     vinyls.push(res);
   });
