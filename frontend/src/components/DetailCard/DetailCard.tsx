@@ -4,7 +4,7 @@ import { joinArray } from '../../utils/string';
 interface DetailCardProps {
   title: string;
   artist: string;
-  genres: string[];
+  genres: { name: string }[];
   cover: string;
 }
 

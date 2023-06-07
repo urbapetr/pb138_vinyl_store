@@ -18,9 +18,9 @@ export function LandingPage() {
           return (
             <div className="w-full sm:inline-block" key={genre.id}>
               <GenreCard
-                imageUrl={genre.imageUrl}
+                imageUrl={genre.records[0].record.imageUrl}
                 label={genre.name}
-                link={genre.id}
+                link={`?genre=${genre.name}`}
               />
             </div>
           );

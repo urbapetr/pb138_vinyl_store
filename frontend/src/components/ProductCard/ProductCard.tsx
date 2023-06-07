@@ -1,18 +1,17 @@
 import { Link } from 'react-router-dom';
-import { RecordCheapest } from '../../models';
 import { CardImage } from '../shared/CardImage';
 import { ProductButton } from './ProductButton';
 import { joinArray } from '../../utils/string';
+import { Record } from '../../models';
 
 export function ProductCard({
   id,
   title,
   artist,
   genres,
-  price,
-  priceUrl,
+  stores,
   cover,
-}: RecordCheapest) {
+}: Record) {
   return (
     <div className="h-full bg-neutral-800 flex flex-col">
       <Link to={`/records/${id}`}>
@@ -29,7 +28,11 @@ export function ProductCard({
         </Link>
       </div>
       <div className="py-2 text-center font-aoboshi mt-auto">
-        <ProductButton price={price} navigationUrl={priceUrl} />
+        <ProductButton
+          available={stores[0].available}
+          price={stores[0].price}
+          navigationUrl={stores[0].productUrl}
+        />
       </div>
     </div>
   );

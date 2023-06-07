@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 import { LoadingIcon } from '../components/shared/LoadingIcon';
 import { RecordApi } from '../services';
 import { ProductCard } from '../components/ProductCard/ProductCard';
@@ -6,9 +7,11 @@ import { OrderBySelect } from '../components/OrderBySelect/OrderBySelect';
 import { Filter } from '../components/Filter/Filter';
 
 export function GenrePage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const { data: records } = useQuery({
     queryKey: ['records'],
-    queryFn: () => RecordApi.getRecords(),
+    queryFn: () => RecordApi.getRecords(searchParams.toString()),
   });
 
   if (!records) return <LoadingIcon />;
@@ -31,8 +34,7 @@ export function GenrePage() {
                 cover={record.cover}
                 genres={record.genres}
                 id={record.id}
-                price={record.price}
-                priceUrl={record.priceUrl}
+                stores={record.stores}
                 title={record.title}
               />
             );

@@ -9,7 +9,7 @@ type GenreCardProps = {
 
 export function GenreCard({ imageUrl, label, link }: GenreCardProps) {
   return (
-    <Link to={`search/${link}`}>
+    <Link to={`search${link}`}>
       <div className="text-center mt-12">
         <div>
           <CardImage src={imageUrl} alt={label} />

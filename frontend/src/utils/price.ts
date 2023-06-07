@@ -1,5 +1,5 @@
-export const convertPrice = (price: number | null) => {
-  if (price === null) {
+export const convertPrice = (price: number | null, available: boolean) => {
+  if (available === false || !price) {
     return 'Out of Stock';
   }
 

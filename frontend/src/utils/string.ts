@@ -1,10 +1,10 @@
-export const joinArray = (array: string[]) => {
+export const joinArray = (array: { name: string }[]) => {
   let output = '';
   array.forEach((e, i) => {
     if (i !== array.length - 1) {
-      output += `${e}, `;
+      output += `${e.name}, `;
     } else {
-      output += e;
+      output += e.name;
     }
   });
 
