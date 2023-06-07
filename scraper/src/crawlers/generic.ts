@@ -3,6 +3,7 @@ import { readFile, writeFile } from 'fs/promises';
 import { resolve } from 'path';
 import axios, { AxiosError } from 'axios';
 
+// make the scraper look like basic browser, tailored to musicstack due to the anti-scraping mechanism
 const config = {
   headers: {
     'User-Agent':
@@ -16,7 +17,7 @@ const config = {
     'Sec-GPC': '1',
     Connection: 'keep-alive',
     Cookie:
-      '__uzma=b8bbd219-311a-453c-9f5b-59e124d76430; __uzmb=1685891286; __uzmc=7862812468052; __uzmd=1685989188; sid=16858912536232875; currency=USD; zone=; payment_type=PayPal; per_page=500',
+      '__uzma=b8bbd219-311a-453c-9f5b-59e124d76430; __uzmb=1685891286; __uzmc=3520616044857; __uzmd=1686147511; sid=16858912536232875; currency=USD; zone=; payment_type=PayPal; per_page=500',
     'Upgrade-Insecure-Requests': '1',
     'Sec-Fetch-Dest': 'document',
     'Sec-Fetch-Mode': 'navigate',
@@ -26,11 +27,6 @@ const config = {
     TE: 'trailers',
   },
 };
-// const config = {
-//     headers: {
-//       'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0',
-//     },
-//   };
 
 const fetchPage = (url: string): Promise<string | undefined> => {
   const HTMLData = axios

@@ -3,12 +3,12 @@ import cheerio from 'cheerio';
 import { delay, fetchFromWebOrCache } from '../generic';
 import { send } from '../../sender';
 import type { Vinyl } from '../../models/vinylTypes';
-// import { extractProduct } from '../products/ExperienceVinylProduct';
 
 const UUID = '3ca22494-047e-11ee-be56-0242ac120002';
 const defaultDelay = 1000;
 
 const URL = 'https://vinylpursuit.com/collections/all-vinyl?page=1';
+const baseUrl = 'https://vinylpursuit.com/collections/all-vinyl?page=';
 
 const getProductUlrs = async (pageUrl: string): Promise<Array<string>> => {
   const contents = await fetchFromWebOrCache(pageUrl);
@@ -40,33 +40,24 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
     .split(/[-–—(]/);
   const artist = text[0] ? text[0].trim() : '';
   const title = text[1] ? text[1].trim() : '';
-  // const availability = $('span[itemprop="availability"]').attr('content');
-  const available = true; // they don't list sold out i think
+
+  const available = true; // they don't list sold out
   const price = parseFloat(
     $('.price[itemprop="price"] .money')
       .text()
       .replace(/[^0-9.]/g, '')
   );
+
   let image = $('#product-featured-image').attr('src');
   if (image) {
     image = `http:${image}`;
   }
 
-  // they use various formatting on description T.T
-  // const description = $('.panel > p.p1 ').html() ?? "";
-  // const description = $('.panel p.p1 ').html() ?? "";
-  const description = $('.panel ').html() ?? '';
-
   // Extract the list of genres
+  const description = $('.panel').html() ?? '';
   const match = description.match(/Genre:([^<]+)/i);
-
   let genres =
     match && match[1] ? match[1].split(',').map((genre) => genre.trim()) : [];
-
-  if (genres.length === 0) {
-    const path = Buffer.from(detailUrl).toString('base64').replaceAll('/', '!');
-    console.error(`ERROR INVESTIGATE: '${path}.html'`);
-  }
 
   genres = genres.flatMap((genre) => {
     if (genre.includes(' / ')) {
@@ -92,19 +83,19 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
   return result;
 };
 
-const getPagesCount = async (): Promise<number | null> => {
+const getPagesCount = async (): Promise<number> => {
   const contents = await fetchFromWebOrCache(URL);
 
   const path = Buffer.from(URL).toString('base64').replaceAll('/', '!');
   console.log(`path is ${path}`);
 
   if (contents == null) {
-    return null;
+    throw new Error('getPagesCount: Could not get contents!');
   }
   const $ = cheerio.load(contents);
   const pages = $('ul.pagination-page > li:eq(-2) > a').text();
 
-  return pages ? parseInt(pages, 10) : null;
+  return parseInt(pages, 10);
 };
 
 const getProducts = async (
@@ -112,24 +103,17 @@ const getProducts = async (
   pageLimit?: number
 ): Promise<Array<Vinyl>> => {
   const vinyls: Array<Vinyl> = [];
+  const pageCount: number = await getPagesCount();
+  const maxPage = pageLimit ? Math.min(pageCount, pageLimit) : pageCount;
 
-  const pageCount: number | null = await getPagesCount();
   console.log(pageCount);
   await delay(defaultDelay);
   let allUrls: string[] = [];
   if (!pageCount) {
     throw new Error('No pageCount!');
   }
-  // await delay(5000);
-  // TODO pages count
-  for (
-    let i = pageStart ?? 1;
-    i < (pageLimit ? Math.min(pageCount, pageLimit) : pageCount);
-    i += 1
-  ) {
-    const url = await getProductUlrs(
-      `https://vinylpursuit.com/collections/all-vinyl?page=${i}`
-    );
+  for (let i = pageStart ?? 1; i < maxPage; i += 1) {
+    const url = await getProductUlrs(`${baseUrl}{i}`);
     allUrls = [...allUrls, ...url];
   }
 

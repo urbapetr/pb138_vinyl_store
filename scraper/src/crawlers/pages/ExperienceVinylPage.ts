@@ -8,7 +8,7 @@ import { send } from '../../sender';
 const UUID = '44758828-047e-11ee-be56-0242ac120002';
 const URL = 'https://experiencevinyl.com/collections/vinyl-record-lps';
 const baseUrl = 'https://experiencevinyl.com';
-const defaultDelay = 1000;
+const defaultDelay = 1;
 
 const getProductsFromPage = async (pageUrl: string): Promise<Array<Vinyl>> => {
   const contents = await fetchFromWebOrCache(pageUrl);
@@ -29,7 +29,11 @@ const getProductsFromPage = async (pageUrl: string): Promise<Array<Vinyl>> => {
       .trim()
       .split('-');
     const artist = text[0] ? text[0].trim() : '';
-    const title = text.slice(1).join('-').trim();
+    const title = text
+      .slice(1)
+      .join('-')
+      .replace(/LP\s*$/, '')
+      .trim();
     let image = $(data).find('.motion-reduce').attr('src');
     if (image) {
       image = `http:${image}`;

@@ -3,9 +3,6 @@ import cheerio from 'cheerio';
 import { delay, fetchFromWebOrCache } from '../generic';
 import { send } from '../../sender';
 import type { Vinyl } from '../../models/vinylTypes';
-// import { extractProduct } from '../products/ExperienceVinylProduct';
-
-// const URL = 'https://experiencevinyl.com/collections/vinyl-record-lps';
 const UUID = '4a0b0b4a-047e-11ee-be56-0242ac120002';
 
 const URL =
@@ -47,9 +44,7 @@ const getProductUlrs = async (
     return { isEnd: true, urls };
   }
   const $ = cheerio.load(contents);
-  // loading 75 entries, ends with "next page link"
   $('form > table:gt(3)').each((i, data) => {
-    // console.log(`###########################Element ${i}`);
     const url = $(data).find('a').attr('href');
     if (url) {
       if (url.startsWith(URL)) {
@@ -67,7 +62,6 @@ const getProductUlrs = async (
 };
 
 const getProduct = async (detailUrl: string): Promise<Vinyl> => {
-  // const contents = await fetchFromWebOrCache(detailUrl);
   const contents = await getContents(detailUrl);
   if (contents == null) {
     throw new Error('Invalid data. Unable to create Vinyl object.');
@@ -77,8 +71,8 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
   const artist = text[0] ? text[0].trim() : 'N/A';
   const title = text.slice(1).join('-').trim();
   const quantityText = $('span[itemprop="eligibleQuantity"]').attr('content');
-  const quantity = quantityText ? parseInt(quantityText, 10) : NaN;
-  // const available = $('span[itemprop="availability"]').attr('content');
+  if (quantityText === undefined) {throw new Error("Could not get quantity");}
+  const quantity = parseInt(quantityText, 10);
   const available = quantity ? quantity >= 1 : false;
   const price = parseFloat(
     $('font[face="arial"][size="+2"][color="black"] > b')
@@ -90,12 +84,10 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
     throw new Error('Image not found');
   }
 
-  // const genres = [$('td.t:contains("Genre:") + td.t').text()];
-  // TODO: really only one genre?
   const genre = $('td.t b:contains("Genre:")')
     .parent()
     .parent()
-    .find('td:eq(2)'); // .next('td.t');
+    .find('td:eq(2)');
   const genres = [genre.text()];
   const result = {
     artist,
@@ -136,15 +128,13 @@ const getProducts = async (
   pageLimit?: number
 ): Promise<Array<Vinyl>> => {
   const vinyls: Array<Vinyl> = [];
-
   let allUrls: string[] = [];
+
   let currentPage = pageStart ? pageStart - 1 : 0;
   let isEnd = false;
   let progressItems = pageStart ? currentPage * 500 : 0;
-  while (!isEnd && (pageLimit ? currentPage < pageLimit : true)) {
-    // while (pageLimit ? currentPage < pageLimit : true) {
-    console.log(`On page ${currentPage}`);
 
+  while (!isEnd && (pageLimit ? currentPage < pageLimit : true)) {
     const result = await getProductUlrs(
       `${URL}${progressItems}`
     );
@@ -156,24 +146,9 @@ const getProducts = async (
     currentPage += 1;
   }
 
-  /// /
-  // const pageCount: number | null = await getPagesCount();
-  // console.log(pageCount);
-  // await delay(defaultDelay);
-  // let allUrls: string[] = [];
-  // if (!pageCount) {
-  //   throw new Error("No pageCount!");
-  // }
-  // await delay(5000);
-  // TODO pages count
-  // for (let i = (pageStart ?? 1); i < (pageLimit ?? pageCount); i++) {
-  //   const url = await getProductUlrs(`https://vinylpursuit.com/collections/all-vinyl?page=${i}`)
-  //   allUrls = [...allUrls, ...url];
-
-  // }
-
   console.log(`Loaded ${allUrls.length} urls!`);
   await delay(defaultDelay);
+  await delay(1000);
 
   for (let i = 1; i < allUrls.length; i += 1) {
     const url = allUrls[i];
