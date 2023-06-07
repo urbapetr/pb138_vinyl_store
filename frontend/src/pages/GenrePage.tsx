@@ -17,30 +17,49 @@ export function GenrePage() {
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: ['records', page],
+    queryKey: ['records'],
     queryFn: () => {
+      console.log('init');
       return RecordApi.getRecords(`${searchParams.toString()}&page=${page}`);
     },
+    staleTime: Infinity,
   });
 
   const fetchNextPage = useCallback(async () => {
+    console.log('ano');
+    console.log(page);
+    console.log(`${searchParams.toString()}&page=${page}`);
     const nextPage = page + 1;
     const nextPageData = await RecordApi.getRecords(
       `${searchParams.toString()}&page=${nextPage}`
     );
 
-    queryClient.setQueryData(['records', nextPage], nextPageData);
+    console.log(records);
+    console.log(nextPageData);
+
+    if (!records || !records.data) {
+      queryClient.setQueryData(['records'], nextPageData);
+      setPage(nextPage);
+      return;
+    }
+
+    nextPageData.data = [...records.data, ...nextPageData.data];
+    queryClient.setQueryData(['records'], nextPageData);
     setPage(nextPage);
-  }, [queryClient, page, searchParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const handleScroll = useCallback(() => {
+    console.log('gay');
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
     const scrolledToBottom = scrollTop + clientHeight === scrollHeight;
 
     if (scrolledToBottom && !isFetching) {
+      console.log('giga gay');
       fetchNextPage();
     }
-  }, [isFetching, fetchNextPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetching]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -51,6 +70,8 @@ export function GenrePage() {
   }, [handleScroll]);
 
   useEffect(() => {
+    console.log('cemu');
+    setPage(1);
     refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
