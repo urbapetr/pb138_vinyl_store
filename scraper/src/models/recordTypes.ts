@@ -5,6 +5,7 @@ export interface Record {
   price: number;
   image: string;
   genres: string[];
+  productUrl: string;
 }
 
 export interface RecordSend extends Record {

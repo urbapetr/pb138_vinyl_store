@@ -16,7 +16,7 @@ const create = async (data: RecordData, storeId: string): DbResult<Record> => {
     try {
       record = await readByProduct(data.title, data.artist, tx);
     } catch (e) {
-      const recordData = await client.record.create({
+      const recordData = await tx.record.create({
         data: {
           artist: data.artist,
           title: data.title,
