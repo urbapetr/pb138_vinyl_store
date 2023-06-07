@@ -4,12 +4,17 @@ import client from '../client';
 import { PAGE_ITEMS_COUNT } from '../consts';
 import type { PrismaTransactionHandle } from '../types';
 import { NonexistentRecordError } from '../errors';
+import type {
+  RecordFilters,
+  RecordPageResponse,
+  RecordResponse,
+} from '../../types/record';
 
 export const readByProduct = async (
   title: string,
   artist: string,
   tx: PrismaTransactionHandle
-) => {
+): Promise<Result<Prisma.RecordGetPayload<{}>, NonexistentRecordError>> => {
   const record = await tx.record.findFirst({
     where: {
       artist,
@@ -24,7 +29,9 @@ export const readByProduct = async (
   return Result.ok(record);
 };
 
-export const readById = async (id: string) => {
+export const readById = async (
+  id: string
+): Promise<Result<RecordResponse, NonexistentRecordError>> => {
   const record = await client.record.findUnique({
     where: {
       id,
@@ -73,7 +80,10 @@ export const readById = async (id: string) => {
 
 const insensitiveMode = 'insensitive';
 
-export const readPage = async (page: number, filters: any) => {
+export const readPage = async (
+  page: number,
+  filters: RecordFilters
+): Promise<Result<RecordPageResponse[], Error>> => {
   const whereCondition: Prisma.RecordWhereInput = {};
 
   if (filters.genre) {
@@ -109,7 +119,7 @@ export const readPage = async (page: number, filters: any) => {
   if (filters.available) {
     whereCondition.stores = {
       some: {
-        available: filters.available === 'true',
+        available: filters.available,
       },
     };
   }
@@ -149,7 +159,7 @@ export const readPage = async (page: number, filters: any) => {
 
   if (filters.orderby) {
     const [column, direction] = filters.orderby.split('_');
-    orderBy = { [column]: direction };
+    orderBy = { [column as keyof typeof orderBy]: direction };
   }
 
   const records = await client.record.findMany({

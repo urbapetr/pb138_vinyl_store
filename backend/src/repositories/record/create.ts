@@ -10,7 +10,7 @@ import storeRecord from '../storeRecord';
 
 const create = async (data: RecordData, storeId: string): DbResult<Record> => {
   return client.$transaction(async (tx) => {
-    let record: Result<Record>;
+    let record: Result<Record, Error>;
     let newRecord = false;
 
     try {
@@ -44,13 +44,15 @@ const create = async (data: RecordData, storeId: string): DbResult<Record> => {
       return genericError;
     }
 
+    const recordValue = record.value;
+
     if (!newRecord) {
       try {
-        await storeRecord.read(storeId, record.value.id, tx);
+        await storeRecord.read(storeId, recordValue.id, tx);
       } catch {
         await storeRecord.create(
           storeId,
-          record.value.id,
+          recordValue.id,
           data.productUrl,
           data.price,
           data.available,
@@ -59,37 +61,35 @@ const create = async (data: RecordData, storeId: string): DbResult<Record> => {
       }
     }
 
-    // Yup, javascript is a gay language
-    // eslint-disable-next-line no-restricted-syntax
-    for (const genre of ['All', ...data.genres]) {
-      // eslint-disable-next-line no-await-in-loop
-    let dbGenre: Result<GenreType>;
+    const genres = ['All', ...data.genres];
+    const genrePromises = genres.map(async (genre) => {
+      let dbGenre: Result<GenreType, Error>;
       try {
         dbGenre = await Genre.readByName(genre, tx);
-      } catch (e) {
+      } catch (err) {
         dbGenre = await Genre.create(genre, tx);
       }
 
       if (!dbGenre.isOk) {
-        return genericError;
+        throw new Error('Genre operation failed');
       }
+
+      const dbGenreValue = dbGenre.value;
 
       try {
-        // eslint-disable-next-line no-await-in-loop
-        await genreRecord.read(dbGenre.value.id, record.value.id, tx);
+        await genreRecord.read(dbGenreValue.id, recordValue.id, tx);
       } catch (e) {
         try {
-          // eslint-disable-next-line no-await-in-loop
-          await genreRecord.create(dbGenre.value.id, record.value.id, tx);
-        }
-        catch (e) {
-          // suppress the exception that can occur if a record is created twice
-          console.log(e);
+          await genreRecord.create(dbGenreValue.id, recordValue.id, tx);
+        } catch (err) {
+          console.log(err);
         }
       }
-    }
+    });
 
-    return record;
+    await Promise.all(genrePromises);
+
+    return Result.ok(recordValue);
   });
 };
 
