@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect, useCallback } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import { LoadingIcon } from '../components/shared/LoadingIcon';
 import { RecordApi } from '../services';
@@ -7,12 +8,40 @@ import { OrderBySelect } from '../components/OrderBySelect/OrderBySelect';
 import { Filter } from '../components/Filter/Filter';
 
 export function GenrePage() {
+  const [page, setPage] = useState(1); // Track the current page number
   const [searchParams, setSearchParams] = useSearchParams();
+  const queryClient = useQueryClient();
 
-  const { data: records } = useQuery({
-    queryKey: ['records'],
-    queryFn: () => RecordApi.getRecords(searchParams.toString()),
-  });
+  const { data: records, isFetching } = useQuery(['records', page], () =>
+    RecordApi.getRecords(`${searchParams.toString()}&page=${page}`)
+  );
+
+  const fetchNextPage = useCallback(async () => {
+    const nextPage = page + 1;
+    const nextPageData = await RecordApi.getRecords(
+      `${searchParams.toString()}&page=${nextPage}`
+    );
+
+    queryClient.setQueryData(['records', nextPage], nextPageData);
+    setPage(nextPage);
+  }, [queryClient, page, searchParams]);
+
+  const handleScroll = useCallback(() => {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    const scrolledToBottom = scrollTop + clientHeight === scrollHeight;
+
+    if (scrolledToBottom && !isFetching) {
+      fetchNextPage();
+    }
+  }, [isFetching, fetchNextPage]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   if (!records) return <LoadingIcon />;
 
@@ -30,17 +59,18 @@ export function GenrePage() {
             return (
               <ProductCard
                 key={record.id}
-                artist={record.artist}
-                imageUrl={record.imageUrl}
-                genres={record.genres}
                 id={record.id}
                 stores={record.stores}
                 title={record.title}
+                artist={record.artist}
+                genres={record.genres}
+                imageUrl={record.imageUrl}
               />
             );
           })}
         </div>
       </div>
+      {isFetching && <LoadingIcon />}
     </div>
   );
 }
