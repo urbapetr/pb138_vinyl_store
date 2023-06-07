@@ -143,6 +143,7 @@ export const readPage = async (page: number, filters: any) => {
     orderBy,
     include: {
       stores: {
+        take: 1,
         select: {
           price: true,
           available: true,
@@ -155,6 +156,13 @@ export const readPage = async (page: number, filters: any) => {
         },
       },
       genres: {
+        where: {
+          genre: {
+            NOT: {
+              name: 'All',
+            },
+          },
+        },
         select: {
           genre: {
             select: {
