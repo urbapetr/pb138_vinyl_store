@@ -40,7 +40,7 @@ const getContents = async (url: string) => {
 };
 // /html/body/center/table/tbody/tr/td/form/table[4]
 const getProductUlrs = async (pageUrl: string): Promise<Array<string>> => {
-  const contents = await fetchFromWebOrCache(pageUrl);
+  const contents = await getContents(pageUrl);
   const urls: string[] = [];
   if (contents == null) {
     return urls;
