@@ -9,6 +9,7 @@ export const newRecordScheme = object({
   title: string().required('Propery [title] is missing'),
   available: boolean().required('Property [available] is missing'),
   price: number().required('Property [price] is missing'),
+  productUrl: string().required('Property [productUrl] is missing'),
   image: string().required('Property [image] is missing'),
   genres: array().of(string()).required('Property [genres] is missing'),
   storeId: string().required('Property [storeId] is missing'),

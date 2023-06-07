@@ -5,6 +5,7 @@ import type { DbResult, PrismaTransactionHandle } from '../types';
 const create = async (
   storeId: string,
   recordId: string,
+  productUrl: string,
   price: number,
   available: boolean,
   tx: PrismaTransactionHandle
@@ -14,6 +15,7 @@ const create = async (
       storeId,
       recordId,
       price,
+      productUrl,
       available,
     },
   });

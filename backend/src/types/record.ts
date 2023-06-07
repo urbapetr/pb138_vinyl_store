@@ -9,6 +9,7 @@ export interface RecordData {
   title: string;
   available: boolean;
   price: number;
+  productUrl: string;
   image: string;
   genres: string[];
 }

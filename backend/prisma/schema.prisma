@@ -27,12 +27,13 @@ model Store {
 }
 
 model StoreInRecord {
-  storeId   String
-  recordId  String
-  available Boolean
-  price     Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  storeId     String
+  recordId    String
+  available   Boolean
+  price       Float
+  productUrl  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   store  Store  @relation(fields: [storeId], references: [id])
   record Record @relation(fields: [recordId], references: [id])

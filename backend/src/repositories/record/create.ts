@@ -25,6 +25,7 @@ const create = async (data: RecordData, storeId: string): DbResult<Record> => {
             create: {
               available: data.available,
               price: data.price,
+              productUrl: data.productUrl,
               store: {
                 connect: {
                   id: storeId,
@@ -50,6 +51,7 @@ const create = async (data: RecordData, storeId: string): DbResult<Record> => {
         await storeRecord.create(
           storeId,
           record.value.id,
+          data.productUrl,
           data.price,
           data.available,
           tx
