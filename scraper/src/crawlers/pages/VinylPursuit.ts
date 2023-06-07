@@ -60,13 +60,24 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
   // Extract the list of genres
   const match = description.match(/Genre:([^<]+)/i);
 
-  const genres =
+  let genres =
     match && match[1] ? match[1].split(',').map((genre) => genre.trim()) : [];
 
   if (genres.length === 0) {
     const path = Buffer.from(detailUrl).toString('base64').replaceAll('/', '!');
     console.error(`ERROR INVESTIGATE: '${path}.html'`);
   }
+
+  genres = genres.flatMap((genre) => {
+    if (genre.includes(' / ')) {
+      return genre.split(' / ');
+    }
+    return genre;
+  });
+
+  genres = genres.map((genre) => {
+    return genre.replace(/^&amp; /, '').replace(/ &amp; /, ' & ');
+  });
 
   const result = {
     artist,
