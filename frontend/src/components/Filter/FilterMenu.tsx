@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import * as yup from 'yup';
 
 const validationSchema = yup.object().shape({
@@ -11,6 +12,8 @@ const validationSchema = yup.object().shape({
 });
 
 export function FilterMenu() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [values, setValues] = useState({
     genre: '',
     title: '',
@@ -26,7 +29,14 @@ export function FilterMenu() {
     const params = new URLSearchParams();
     Object.entries(formValues).forEach(([key, value]) => {
       if (value !== '' && value !== 0) {
-        params.append(key, value.toString());
+        if (key === 'genre') {
+          const firstLetter = value.toString().charAt(0).toUpperCase();
+          const restOfLetters = value.toString().slice(1).toLowerCase();
+          const genre = firstLetter + restOfLetters;
+          params.append(key, genre);
+        } else {
+          params.append(key, value.toString());
+        }
       }
     });
     return params.toString();
@@ -43,15 +53,18 @@ export function FilterMenu() {
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
-        console.log('Form is valid');
         const query = generateQuery(values);
-        console.log('Generated query:', query);
+
+        const newSearchParams: URLSearchParams = new URLSearchParams(query);
+        setSearchParams(newSearchParams.toString());
+        (window as any).filter_modal.close();
       })
       .catch((err: yup.ValidationError) => {
         const validationErrors: Record<string, string> = {};
         err.inner.forEach((error) => {
-          console.log('Form is invalid');
-          validationErrors[error.path!] = error.message;
+          if (error.path) {
+            validationErrors[error.path] = error.message;
+          }
         });
         setErrors(validationErrors);
       });
@@ -153,11 +166,17 @@ export function FilterMenu() {
         </div>
       </div>
       <div className="modal-action flex justify-around">
+        <button
+          className="btn"
+          type="button"
+          onClick={() => {
+            (window as any).filter_modal.close();
+          }}
+        >
+          Cancel
+        </button>
         <button className="btn" type="button" onClick={handleCancel}>
           Clear
-        </button>
-        <button className="btn" type="button">
-          Cancel
         </button>
         <button className="btn" type="submit">
           Filter
