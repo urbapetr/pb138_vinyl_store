@@ -1,5 +1,5 @@
 import { Result } from '@badrap/result';
-import type { Record } from '@prisma/client';
+import type { Genre as GenreType, Record } from '@prisma/client';
 import type { RecordData } from '../../types/record';
 import { DbResult, genericError } from '../types';
 import client from '../client';
@@ -63,10 +63,10 @@ const create = async (data: RecordData, storeId: string): DbResult<Record> => {
     // eslint-disable-next-line no-restricted-syntax
     for (const genre of ['All', ...data.genres]) {
       // eslint-disable-next-line no-await-in-loop
-      let dbGenre = await Genre.readByName(genre, tx);
-
-      if (dbGenre.isErr) {
-        // eslint-disable-next-line no-await-in-loop
+    let dbGenre: Result<GenreType>;
+      try {
+        dbGenre = await Genre.readByName(genre, tx);
+      } catch (e) {
         dbGenre = await Genre.create(genre, tx);
       }
 
