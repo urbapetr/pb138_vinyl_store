@@ -5,7 +5,7 @@ import axiosInstance from './base';
 export const putRecord = async (
   data: Record
 ): Promise<ResponseSingle<Record>> => {
-  const response = await axiosInstance.post('records', data);
+  const response = await axiosInstance.post('record', data);
   return response.data;
 };
 
