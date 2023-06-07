@@ -34,7 +34,10 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
     throw new Error('Invalid data. Unable to create Vinyl object.');
   }
   const $ = cheerio.load(contents);
-  const text = $('h1[itemprop="name"]').text().split('–');
+  const text = $('h1[itemprop="name"]')
+    .text()
+    .replace(/\u200E/g, '')
+    .split(/[-–—(]/);
   const artist = text[0] ? text[0].trim() : '';
   const title = text[1] ? text[1].trim() : '';
   // const availability = $('span[itemprop="availability"]').attr('content');
