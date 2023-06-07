@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
-import reportWebVitals from './utils/reportWebVitals';
 
 import './index.css';
 
@@ -18,5 +17,3 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </QueryClientProvider>
   </React.StrictMode>
 );
-
-reportWebVitals();
