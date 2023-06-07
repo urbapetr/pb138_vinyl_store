@@ -13,10 +13,10 @@ export function LandingPage() {
 
   return (
     <div className="mb-8">
-      <div className="mx-12 sm:grid sm:grid-cols-2 sm:gap-x-12 lg:grid-cols-4 xl:mx-48">
+      <div className="mx-12 mt-12 grid gap-y-12 sm:grid-cols-2 sm:gap-x-12 lg:grid-cols-4 xl:mx-48">
         {genres.data.map((genre) => {
           return (
-            <div className="w-full sm:inline-block" key={genre.id}>
+            <div className="w-full bg-neutral-800" key={genre.id}>
               <GenreCard
                 imageUrl={genre.records[0].record.imageUrl}
                 label={genre.name}
