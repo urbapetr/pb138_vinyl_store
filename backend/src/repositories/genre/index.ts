@@ -1,9 +1,9 @@
 import create from './create';
-import { readById, readByName, readPage } from './read';
+import { readById, readByName, readAll } from './read';
 
 export default {
   create,
   readById,
   readByName,
-  readPage,
+  readAll,
 };

@@ -3,7 +3,6 @@ import { Result } from '@badrap/result';
 import client from '../client';
 import { DeletedRecordError, NonexistentRecordError } from '../errors';
 import type { DbResult, PrismaTransactionHandle } from '../types';
-import { PAGE_ITEMS_COUNT } from '../consts';
 
 export const readByName = async (
   name: string,
@@ -43,15 +42,8 @@ export const readById = async (
   return Result.ok(genre);
 };
 
-/**
- * Reads a page(10) of genres from database
- * @param page - page number, takes 10 records from database according to page
- */
-export const readPage = async (page: number): DbResult<Genre[]> => {
-  // get 10 records from database according to page, including imageUrl of the most recent record in each genre
+export const readAll = async (): DbResult<Genre[]> => {
   let genres = await client.genre.findMany({
-    skip: (page - 1) * PAGE_ITEMS_COUNT,
-    take: PAGE_ITEMS_COUNT,
     include: {
       records: {
         include: {
