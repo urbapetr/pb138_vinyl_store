@@ -15,14 +15,14 @@ export interface RecordData {
 }
 
 export type RecordFilters = {
-  genre?: string;
-  lowPrice?: number;
-  highPrice?: number;
-  available?: boolean;
-  title?: string;
-  artist?: string;
-  needle?: string;
-  orderby?: string;
+  genre?: string | undefined;
+  lowPrice?: number | undefined;
+  highPrice?: number | undefined;
+  available?: boolean | undefined;
+  title?: string | undefined;
+  artist?: string | undefined;
+  needle?: string | undefined;
+  orderby?: string | undefined;
 };
 
 export type RecordResponse = {

@@ -1,8 +1,10 @@
 import type { Request, Response } from 'express';
+import { ValidationError } from 'yup';
 import Record from '../../repositories/record';
 import type { ApiResponse } from '../types';
 import { idScheme } from '../../models/recordModel';
 import { NonexistentRecordError } from '../../repositories/errors';
+import { recordSchema } from '../../models/recordsModel';
 
 export const readRecord = async (req: Request, res: Response) => {
   try {
@@ -16,7 +18,9 @@ export const readRecord = async (req: Request, res: Response) => {
 
     res.status(200).send({ data: result.value });
   } catch (e) {
-    if (e instanceof NonexistentRecordError) {
+    if (e instanceof ValidationError) {
+      res.status(400).send({ error: e.message });
+    } else if (e instanceof NonexistentRecordError) {
       res.status(404).send({ error: e.message });
     } else {
       res.status(500).send({ error: 'Something went wrong' });
@@ -26,22 +30,14 @@ export const readRecord = async (req: Request, res: Response) => {
 
 export const readRecords = async (req: Request, res: Response) => {
   try {
-    // set default page to 1
-    let page = 1;
+    const data = await recordSchema.validate(req.query);
 
-    // if page is specified in query, use it
-    if (typeof req.query.page === 'string') {
-      page = parseInt(req.query.page, 10);
-    }
-
-    // if page is not a number or is less than 1, set it to 1
-    if (Number.isNaN(page) || page < 1) {
-      res.status(400).send({ error: 'Page must be more than 0.' });
-      return;
+    if (!data.page) {
+      data.page = 1;
     }
 
     // get 10 records from database according to page, including imageUrl of the first record in each genre
-    const genresWithRecordImage = await Record.readPage(page, req.query);
+    const genresWithRecordImage = await Record.readPage(data.page, data);
 
     if (!genresWithRecordImage.isOk) {
       res.status(500).send({ error: 'Something went wrong' });
@@ -56,6 +52,10 @@ export const readRecords = async (req: Request, res: Response) => {
 
     res.status(200).send(response);
   } catch (e) {
-    res.status(500).send({ error: 'Something went wrong' });
+    if (e instanceof ValidationError) {
+      res.status(400).send({ error: e.message });
+    } else {
+      res.status(500).send({ error: 'Something went wrong' });
+    }
   }
 };
