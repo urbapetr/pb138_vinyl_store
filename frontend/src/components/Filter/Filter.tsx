@@ -7,6 +7,7 @@ export function Filter() {
         type="button"
         className="btn"
         onClick={() => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (window as any).filter_modal.showModal();
         }}
       >

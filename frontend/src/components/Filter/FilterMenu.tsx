@@ -12,7 +12,7 @@ const validationSchema = yup.object().shape({
 });
 
 export function FilterMenu() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const [values, setValues] = useState({
     genre: '',
@@ -23,7 +23,7 @@ export function FilterMenu() {
     available: false,
   });
 
-  const [errors, setErrors] = useState({});
+  const [, setErrors] = useState({});
 
   const generateQuery = (formValues: typeof values) => {
     const params = new URLSearchParams();
@@ -57,6 +57,7 @@ export function FilterMenu() {
 
         const newSearchParams: URLSearchParams = new URLSearchParams(query);
         setSearchParams(newSearchParams.toString());
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).filter_modal.close();
       })
       .catch((err: yup.ValidationError) => {
@@ -170,6 +171,7 @@ export function FilterMenu() {
           className="btn"
           type="button"
           onClick={() => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (window as any).filter_modal.close();
           }}
         >
