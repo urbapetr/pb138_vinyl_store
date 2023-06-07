@@ -113,7 +113,7 @@ const getProducts = async (
     throw new Error('No pageCount!');
   }
   for (let i = pageStart ?? 1; i < maxPage; i += 1) {
-    const url = await getProductUlrs(`${baseUrl}{i}`);
+    const url = await getProductUlrs(`${baseUrl}${i}`);
     allUrls = [...allUrls, ...url];
   }
 

@@ -49,6 +49,6 @@ export async function musicstack(start: number, end: number) {
   }
 }
 
-// experiencevinyl(1,400);
 vinylpursuit(1, 200);
-// musicstack(1,10);
+musicstack(1, 10);
+experiencevinyl(1, 400);

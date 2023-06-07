@@ -32,11 +32,11 @@ const getProductsFromPage = async (pageUrl: string): Promise<Array<Vinyl>> => {
     const title = text
       .slice(1)
       .join('-')
-      .replace(/LP\s*$/, '')
+      .replace(/Vinyl LP\s*$/, '')
       .trim();
     let image = $(data).find('.motion-reduce').attr('src');
     if (image) {
-      image = `http:${image}`;
+      image = `http:${image.replace(/^https:/, '')}`;
     }
     // const price = parseFloat($(data).find('.price-item--regular').text().trim().replace(/[^0-9.]/g, ''));
     // price regular is not the current price...
