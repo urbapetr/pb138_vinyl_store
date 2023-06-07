@@ -33,7 +33,7 @@ export const send = async (vinyl: Vinyl, id: string) => {
 
   recordData.storeId = id;
 
-  putRecord(recordData);
+  await putRecord(recordData);
 };
 
 export default send;
