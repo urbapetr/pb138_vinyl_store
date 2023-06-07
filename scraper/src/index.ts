@@ -40,53 +40,6 @@ export async function vinylpursuit() {
     }
   }
 }
-// @ts-ignore
-async function main() {
-  // console.log(await getPagesCount());
-  // getProducts('https://experiencevinyl.com/collections/vinyl-record-lps?page=2');
-  //
-  //
-  let allUrls: string[] = [];
-  //let currentPage = 0;
-  let isEnd = false;
-  let progressItems = 0;
-  while (!isEnd) {
-    //console.log(`On page $currentPage`);
-
-    const tmp = await MusicStack.getProductUlrs(
-      `https://www.musicstack.com/seller.cgi?seller=64033&search_type=&genre=&media=&find=&next=${progressItems}`
-    );
-
-    console.log(`loaded ${tmp.length} items from ${progressItems}`);
-    allUrls = [...allUrls, ...tmp];
-    progressItems += 500;
-    //currentPage += 1;
-    if (tmp.length !== 500) {
-      isEnd = true;
-    }
-  }
-
-  console.log(allUrls);
-  console.log(`Total loaded ${allUrls.length} urls.`);
-  await delay(5000);
-  for (let i = 0; i < allUrls.length; i += 1) {
-    const url = allUrls[i];
-    if (url) {
-      const path = Buffer.from(url).toString('base64').replaceAll('/', '!');
-      console.log(`doing BASE: ${path}.html`);
-      await MusicStack.getProduct(url);
-      console.log(`waiting for 1 sec (Detail no. ${i})`);
-      await delay(1000);
-    }
-  }
-
-  // allUrls.forEach((url) => {
-  //   MusicStack.getProduct(url);
-  //   await delay(1000);
-  // })
-
-  // console.log(await MusicStack.getProductUlrs("https://www.musicstack.com/seller.cgi?seller=64033&search_type=&genre=&media=&find=&next=0"));
-}
 
 // main();
 // vinylpursuit();

@@ -9,7 +9,7 @@ import type { Vinyl } from '../../models/vinylTypes';
 const UUID = '4a0b0b4a-047e-11ee-be56-0242ac120002';
 
 const URL =
-  'https://www.musicstack.com/seller.cgi?seller=64033&search_type=&genre=&media=&find=&next=';
+  'https://www.musicstack.com/seller.cgi?seller=64033&search_type=&genre=&media=4&find=&next=';
 const defaultDelay = 1;
 
 const getContents = async (url: string) => {
@@ -38,12 +38,13 @@ const getContents = async (url: string) => {
   }
   throw new Error('CAPTCHA REQUIRED!!! Ending');
 };
-// /html/body/center/table/tbody/tr/td/form/table[4]
-const getProductUlrs = async (pageUrl: string): Promise<Array<string>> => {
+const getProductUlrs = async (
+  pageUrl: string
+): Promise<{ isEnd: boolean; urls: string[] }> => {
   const contents = await getContents(pageUrl);
   const urls: string[] = [];
   if (contents == null) {
-    return urls;
+    return { isEnd: true, urls };
   }
   const $ = cheerio.load(contents);
   // loading 75 entries, ends with "next page link"
@@ -51,11 +52,7 @@ const getProductUlrs = async (pageUrl: string): Promise<Array<string>> => {
     // console.log(`###########################Element ${i}`);
     const url = $(data).find('a').attr('href');
     if (url) {
-      if (
-        url.startsWith(
-          'https://www.musicstack.com/seller.cgi?seller=64033&search_type=&genre=&media=&find=&next='
-        )
-      ) {
+      if (url.startsWith(URL)) {
         console.log(`bottom! Loaded ${i} urls.`);
       } else {
         urls.push(url);
@@ -63,7 +60,10 @@ const getProductUlrs = async (pageUrl: string): Promise<Array<string>> => {
     }
   });
 
-  return urls;
+  const nextbutton = $('form > table a.blue_button > font > b');
+  const isEnd = nextbutton.length === 0;
+
+  return { isEnd, urls };
 };
 
 const getProduct = async (detailUrl: string): Promise<Vinyl> => {
@@ -137,21 +137,20 @@ const getProducts = async (
   let allUrls: string[] = [];
   let currentPage = pageStart ? pageStart - 1 : 0;
   let isEnd = false;
-  let progressItems = pageStart ? pageStart * 500 : 0;
+  let progressItems = pageStart ? currentPage * 500 : 0;
   while (!isEnd && (pageLimit ? currentPage < pageLimit : true)) {
-    console.log(`On page $currentPage`);
+    // while (pageLimit ? currentPage < pageLimit : true) {
+    console.log(`On page ${currentPage}`);
 
-    const tmp = await getProductUlrs(
-      `https://www.musicstack.com/seller.cgi?seller=64033&search_type=&genre=&media=&find=&next=${progressItems}`
+    const result = await getProductUlrs(
+      `${URL}${progressItems}`
     );
+    isEnd = result.isEnd;
 
-    console.log(`loaded ${tmp.length} items from ${progressItems}`);
-    allUrls = [...allUrls, ...tmp];
+    console.log(`loaded ${result.urls.length} items from ${progressItems}`);
+    allUrls = [...allUrls, ...result.urls];
     progressItems += 500;
     currentPage += 1;
-    if (tmp.length !== 500) {
-      isEnd = true;
-    }
   }
 
   /// /
