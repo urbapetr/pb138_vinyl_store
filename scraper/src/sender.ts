@@ -22,15 +22,12 @@ export const send = async (vinyl: Vinyl, id: string) => {
   // Normalize genres
   if (recordData.genres && recordData.genres.length > 0) {
     recordData.genres = recordData.genres.map((genre) => {
-      const letters = genre.split('');
-      return letters
-        .map((val, i) => {
-          if (i !== 0) {
-            return val.toLowerCase();
-          }
-          return val.toUpperCase();
-        })
-        .toString();
+      if (genre.length === 0) {
+        return genre;
+      }
+      const firstLetter = genre.charAt(0).toUpperCase();
+      const restOfLetters = genre.slice(1).toLowerCase();
+      return firstLetter + restOfLetters;
     });
   }
 
