@@ -94,7 +94,16 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
     .parent()
     .find('td:eq(2)'); // .next('td.t');
   const genres = [genre.text()];
-  const result = { artist, title, available, image, quantity, price, genres };
+  const result = {
+    artist,
+    title,
+    available,
+    image,
+    quantity,
+    price,
+    genres,
+    productUrl: detailUrl,
+  };
   return result;
 };
 

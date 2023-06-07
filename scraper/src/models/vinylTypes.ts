@@ -6,6 +6,7 @@ export interface Vinyl {
   quantity?: number;
   price: number;
   image: string | undefined;
+  productUrl: string;
 }
 
 export default Vinyl;
