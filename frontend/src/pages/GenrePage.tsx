@@ -9,12 +9,19 @@ import { Filter } from '../components/Filter/Filter';
 
 export function GenrePage() {
   const [page, setPage] = useState(1); // Track the current page number
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
 
-  const { data: records, isFetching } = useQuery(['records', page], () =>
-    RecordApi.getRecords(`${searchParams.toString()}&page=${page}`)
-  );
+  const {
+    data: records,
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: ['records', page],
+    queryFn: () => {
+      return RecordApi.getRecords(`${searchParams.toString()}&page=${page}`);
+    },
+  });
 
   const fetchNextPage = useCallback(async () => {
     const nextPage = page + 1;
@@ -43,7 +50,18 @@ export function GenrePage() {
     };
   }, [handleScroll]);
 
+  useEffect(() => {
+    refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
   if (!records) return <LoadingIcon />;
+
+  if (records.data.length === 0) {
+    return (
+      <div className="font-aoboshi mt-8 text-center text-xl">No results :(</div>
+    );
+  }
 
   return (
     <div>

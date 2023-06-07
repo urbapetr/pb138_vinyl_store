@@ -1,34 +1,53 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+
+interface SearchData {
+  search: string;
+}
 
 export function SearchBar() {
   const navigate = useNavigate();
-  const [searchInput, setSearchInput] = useState('');
+  const [, setSearchParams] = useSearchParams();
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(event.target.value);
-  };
+  const { register, handleSubmit } = useForm<SearchData>();
 
   return (
-    <form className="flex items-center justify-center">
+    <form
+      className="flex items-center justify-center"
+      onSubmit={handleSubmit((data) => {
+        const url = window.location.href.split('?');
+        if (!url[0].endsWith('/search')) {
+          if (!data.search) {
+            navigate('/search?genre=All');
+          } else {
+            navigate(`/search?needle=${encodeURIComponent(data.search)}`);
+          }
+          return;
+        }
+
+        const newSearchParams: URLSearchParams = new URLSearchParams();
+        if (!data.search) {
+          newSearchParams.set('genre', 'All');
+          setSearchParams(newSearchParams.toString());
+        } else {
+          newSearchParams.set('needle', encodeURIComponent(data.search));
+          setSearchParams(newSearchParams.toString());
+        }
+      })}
+    >
       <div className="join">
         <div>
           <div>
             <input
+              id="search"
               className="input join-item"
               placeholder="Search..."
-              value={searchInput}
-              onChange={handleInputChange}
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('search')}
             />
           </div>
         </div>
-        <button
-          type="button"
-          className="btn join-item"
-          onClick={() => {
-            navigate(`/search?needle=${encodeURIComponent(searchInput)}`);
-          }}
-        >
+        <button type="submit" className="btn join-item">
           Search
         </button>
       </div>

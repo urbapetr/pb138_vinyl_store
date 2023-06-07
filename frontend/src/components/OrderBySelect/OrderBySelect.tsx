@@ -3,6 +3,9 @@ export function OrderBySelect() {
     <select
       defaultValue="Order by"
       className="select select-bordered w-full max-w-xs"
+      onSelect={() => {
+        console.log('SELECTED');
+      }}
     >
       <option disabled>Order by</option>
       <option>Newest</option>

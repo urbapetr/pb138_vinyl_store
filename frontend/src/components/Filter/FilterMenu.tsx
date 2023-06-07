@@ -7,6 +7,7 @@ const validationSchema = yup.object().shape({
   artist: yup.string(),
   minPrice: yup.number().min(0),
   maxPrice: yup.number().min(0),
+  available: yup.boolean(),
 });
 
 export function FilterMenu() {
@@ -16,6 +17,7 @@ export function FilterMenu() {
     artist: '',
     minPrice: 0,
     maxPrice: 0,
+    available: false,
   });
 
   const [errors, setErrors] = useState({});
@@ -62,6 +64,7 @@ export function FilterMenu() {
       artist: '',
       minPrice: 0,
       maxPrice: 0,
+      available: false,
     });
     setErrors({});
   };
@@ -141,6 +144,7 @@ export function FilterMenu() {
             <div className="flex flex-col flex-auto">
               <input
                 type="checkbox"
+                onChange={handleChange}
                 defaultChecked={false}
                 className="checkbox"
               />
