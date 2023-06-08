@@ -1,5 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import { LoadingIcon } from '../components/shared/LoadingIcon';
 import { RecordApi } from '../services';
@@ -8,54 +12,35 @@ import { OrderBySelect } from '../components/OrderBySelect/OrderBySelect';
 import { Filter } from '../components/Filter/Filter';
 
 export function GenrePage() {
-  const [page, setPage] = useState(1); // Track the current page number
   const [searchParams] = useSearchParams();
-  const queryClient = useQueryClient();
 
   const {
     data: records,
     isFetching,
     refetch,
-  } = useQuery({
-    queryKey: ['records'],
-    queryFn: () => {
-      console.log('init');
-      return RecordApi.getRecords(`${searchParams.toString()}&page=${page}`);
+    fetchNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['records', searchParams],
+    queryFn: async ({ pageParam = 1 }) => {
+      return RecordApi.getRecords(
+        `${searchParams.toString()}&page=${pageParam}`
+      );
     },
+    getNextPageParam: (_lastGroup, groups) => groups.length + 1,
+    keepPreviousData: true,
     staleTime: Infinity,
   });
 
-  const fetchNextPage = useCallback(async () => {
-    console.log('ano');
-    console.log(page);
-    console.log(`${searchParams.toString()}&page=${page}`);
-    const nextPage = page + 1;
-    const nextPageData = await RecordApi.getRecords(
-      `${searchParams.toString()}&page=${nextPage}`
-    );
-
-    console.log(records);
-    console.log(nextPageData);
-
-    if (!records || !records.data) {
-      queryClient.setQueryData(['records'], nextPageData);
-      setPage(nextPage);
-      return;
-    }
-
-    nextPageData.data = [...records.data, ...nextPageData.data];
-    queryClient.setQueryData(['records'], nextPageData);
-    setPage(nextPage);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  const flatData = useMemo(
+    () => records?.pages.flatMap((p) => p.data) ?? [],
+    [records]
+  );
 
   const handleScroll = useCallback(() => {
-    console.log('gay');
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
     const scrolledToBottom = scrollTop + clientHeight === scrollHeight;
 
     if (scrolledToBottom && !isFetching) {
-      console.log('giga gay');
       fetchNextPage();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,15 +55,13 @@ export function GenrePage() {
   }, [handleScroll]);
 
   useEffect(() => {
-    console.log('cemu');
-    setPage(1);
     refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   if (!records) return <LoadingIcon />;
 
-  if (records.data.length === 0) {
+  if (flatData.length === 0) {
     return (
       <div className="font-aoboshi mt-8 text-center text-xl">No results :(</div>
     );
@@ -94,7 +77,7 @@ export function GenrePage() {
       </div>
       <div className="mb-8">
         <div className="mx-12 mt-12 grid gap-y-12 sm:grid-cols-2 sm:gap-x-12 lg:grid-cols-4 xl:mx-48">
-          {records.data.map((record) => {
+          {flatData.map((record) => {
             return (
               <ProductCard
                 key={record.id}
