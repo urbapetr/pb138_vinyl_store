@@ -16,8 +16,8 @@ export interface RecordData {
 
 export type RecordFilters = {
   genre?: string | undefined;
-  lowPrice?: number | undefined;
-  highPrice?: number | undefined;
+  minPrice?: number | undefined;
+  maxPrice?: number | undefined;
   available?: boolean | undefined;
   title?: string | undefined;
   artist?: string | undefined;

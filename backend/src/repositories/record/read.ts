@@ -102,21 +102,21 @@ export const readPage = async (
     };
   }
 
-  if (filters.lowPrice) {
+  if (filters.minPrice) {
     whereCondition.stores = {
       some: {
         price: {
-          gte: Number(filters.lowPrice),
+          gte: Number(filters.minPrice),
         },
       },
     };
   }
 
-  if (filters.highPrice) {
+  if (filters.maxPrice) {
     whereCondition.stores = {
       some: {
         price: {
-          lte: Number(filters.highPrice),
+          lte: Number(filters.maxPrice),
         },
       },
     };
