@@ -3,6 +3,7 @@ import cheerio from 'cheerio';
 import { delay, fetchFromWebOrCache } from '../generic';
 import { send } from '../../sender';
 import type { Vinyl } from '../../models/vinylTypes';
+
 const UUID = '4a0b0b4a-047e-11ee-be56-0242ac120002';
 
 const URL =
@@ -71,7 +72,9 @@ const getProduct = async (detailUrl: string): Promise<Vinyl> => {
   const artist = text[0] ? text[0].trim() : 'N/A';
   const title = text.slice(1).join('-').trim();
   const quantityText = $('span[itemprop="eligibleQuantity"]').attr('content');
-  if (quantityText === undefined) {throw new Error("Could not get quantity");}
+  if (quantityText === undefined) {
+    throw new Error('Could not get quantity');
+  }
   const quantity = parseInt(quantityText, 10);
   const available = quantity ? quantity >= 1 : false;
   const price = parseFloat(
@@ -135,9 +138,7 @@ const getProducts = async (
   let progressItems = pageStart ? currentPage * 500 : 0;
 
   while (!isEnd && (pageLimit ? currentPage < pageLimit : true)) {
-    const result = await getProductUlrs(
-      `${URL}${progressItems}`
-    );
+    const result = await getProductUlrs(`${URL}${progressItems}`);
     isEnd = result.isEnd;
 
     console.log(`loaded ${result.urls.length} items from ${progressItems}`);
