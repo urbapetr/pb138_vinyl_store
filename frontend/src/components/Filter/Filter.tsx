@@ -1,4 +1,5 @@
 import { FilterMenu } from './FilterMenu';
+import { FilterModalWindow } from '../../types/FilterModalWindow';
 
 export function Filter() {
   return (
@@ -7,8 +8,8 @@ export function Filter() {
         type="button"
         className="btn"
         onClick={() => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (window as any).filter_modal.showModal();
+          const myWindow = window as unknown as FilterModalWindow;
+          myWindow.filter_modal?.showModal();
         }}
       >
         Filter
