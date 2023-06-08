@@ -43,8 +43,14 @@ export function FilterMenu() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setValues((prevValues) => ({ ...prevValues, [name]: value }));
+    const { name } = e.target;
+    const { value } = e.target;
+    // I'm having so much fun with typescript! :)
+    let finalValue: string | boolean = value;
+    if (name === 'available') {
+      finalValue = !values.available;
+    }
+    setValues((prevValues) => ({ ...prevValues, [name]: finalValue }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -158,8 +164,9 @@ export function FilterMenu() {
             <div className="flex flex-col flex-auto">
               <input
                 type="checkbox"
+                checked={values.available}
                 onChange={handleChange}
-                defaultChecked={false}
+                name="available"
                 className="checkbox"
               />
             </div>
