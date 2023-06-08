@@ -102,7 +102,16 @@ export const readPage = async (
     };
   }
 
-  if (filters.minPrice) {
+  if (filters.minPrice && filters.maxPrice) {
+    whereCondition.stores = {
+      some: {
+        price: {
+          gte: Number(filters.minPrice),
+          lte: Number(filters.maxPrice),
+        },
+      },
+    };
+  } else if (filters.minPrice) {
     whereCondition.stores = {
       some: {
         price: {
@@ -110,9 +119,7 @@ export const readPage = async (
         },
       },
     };
-  }
-
-  if (filters.maxPrice) {
+  } else if (filters.maxPrice) {
     whereCondition.stores = {
       some: {
         price: {
