@@ -30,7 +30,7 @@ export function SearchBar() {
           newSearchParams.set('genre', 'All');
           setSearchParams(newSearchParams.toString());
         } else {
-          newSearchParams.set('needle', encodeURIComponent(data.search));
+          newSearchParams.set('needle', data.search);
           setSearchParams(newSearchParams.toString());
         }
       })}
