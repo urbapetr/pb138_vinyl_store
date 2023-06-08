@@ -28,11 +28,15 @@ export function ProductCard({
         </Link>
       </div>
       <div className="py-2 text-center font-aoboshi mt-auto">
-        <ProductButton
-          available={stores[0].available}
-          price={stores[0].price}
-          navigationUrl={stores[0].productUrl}
-        />
+        {(stores.length > 0 && (
+          <ProductButton
+            available={stores[0].available}
+            price={stores[0].price}
+            navigationUrl={stores[0].productUrl}
+          />
+        )) || (
+          <ProductButton available={false} price={null} navigationUrl={null} />
+        )}
       </div>
     </div>
   );
