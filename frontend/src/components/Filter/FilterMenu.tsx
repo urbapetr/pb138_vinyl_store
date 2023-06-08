@@ -12,7 +12,7 @@ const validationSchema = yup.object().shape({
 });
 
 export function FilterMenu() {
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [values, setValues] = useState({
     genre: '',
@@ -59,7 +59,17 @@ export function FilterMenu() {
     validationSchema
       .validate(values, { abortEarly: false })
       .then(() => {
-        const query = generateQuery(values);
+        const orderBy = searchParams.get('orderby');
+        const needle = searchParams.get('needle');
+        let query = generateQuery(values);
+
+        if (orderBy) {
+          query += `&orderby=${orderBy}`;
+        }
+
+        if (needle) {
+          query += `&needle=${needle}`;
+        }
 
         const newSearchParams: URLSearchParams = new URLSearchParams(query);
         setSearchParams(newSearchParams.toString());
