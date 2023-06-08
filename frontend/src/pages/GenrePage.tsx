@@ -63,7 +63,19 @@ export function GenrePage() {
 
   if (flatData.length === 0) {
     return (
-      <div className="font-aoboshi mt-8 text-center text-xl">No results :(</div>
+      <div>
+        <div className="mx-12 -my-4">
+          <div className="m-8 gap-x-4 flex justify-center">
+            <Filter />
+            <OrderBySelect />
+          </div>
+        </div>
+        <div className="mb-8">
+          <div className="font-aoboshi mt-8 text-center text-xl">
+            No results :(
+          </div>
+        </div>
+      </div>
     );
   }
 
