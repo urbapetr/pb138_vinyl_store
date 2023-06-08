@@ -189,7 +189,7 @@ export const readPage = async (
           productUrl: true,
         },
         orderBy: {
-          price: 'desc',
+          price: 'asc',
         },
         where: {
           available: true,
